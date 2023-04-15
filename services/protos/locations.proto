@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package locations;
+
+// Sample service definition.
+service Locations {
+  rpc getLocation (GetLocationRequest) returns (GetLocationReply) {}
+  rpc findLocations (FindLocationsRequest) returns (FindLocationsReply) {}
+}
+
+message LocationsRes {
+  message Location {
+    message Geolocation {
+      double latitude = 1;
+      double longitude = 2;
+    }
+    string address_1 = 1;
+    string address_2 = 2;
+    string city = 3;
+    string postcode = 4;
+    string region = 5;
+    string country = 6;
+    optional Geolocation geolocation = 7;
+  }
+  string _id = 1;
+  Location location = 2;
+}
+
+// The request message containing single location id
+message GetLocationRequest {
+  string id = 1;
+}
+
+// The response message containing result of requested Locations
+message GetLocationReply {
+  LocationsRes location = 1;
+}
+
+// The request message containing parameters for querying locations
+message FindLocationsRequest {
+  message Location {
+    string country = 1;
+    string city = 2;
+  }
+  
+  Location location = 2;
+}
+
+// The response message containing result of requested Locations
+message FindLocationsReply {
+  repeated LocationsRes locations = 1;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "grpc-provider",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
+  "files": [
+    "dist/**"
+  ],
+  "version": "1.0.0",
+  "description": "Wrapper for grpc.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.12",
+    "@grpc/proto-loader": "^0.7.5"
+  }
+}

@@ -1,6 +1,6 @@
 # nodejs-microservices-bootstrap
 
-This is the mono-repository containing streaming and even-driven microservices design implementation.
+This is the mono-repository containing streaming event-driven microservices design implementation.
 
 ## Overview
 
@@ -19,6 +19,26 @@ Run the following command to install all dependencies:
 make install
 ```
 
+## Running development
+
+Run the following from the root directory to build all projects
+
+```bash
+make dev
+```
+
+## Running tests
+
+This project uses [Jest](https://jestjs.io/) for unit and integration tests. Run
+all the tests from the mono-repo root directory using
+
+The tests can be run in individual projects with the `test` alias for example
+
+```
+cd services/service-a
+make test --profile=service-a
+```
+
 ## Building the project
 
 Run the following from the root directory to build all projects
@@ -27,30 +47,9 @@ Run the following from the root directory to build all projects
 make build
 ```
 
-## Running tests
-
-This project uses [Jest](https://jestjs.io/) for unit and integration tests. Run
-all the tests from mono-repo root directory using
-
-The tests can be run in individual projects with the `test` alias for example
-
-```
-cd services/service-a
-make test
-```
-
 ## Docker (build performance)
 
 Each project has its own `Dockerfile` file. Docker
 builds must be run from the root folder of the repo pointing to the
 desired `Dockerfile` so that Turbo can [prune
 workspaces](https://turbo.build/repo/docs/handbook/deploying-with-docker#the-solution).
-
-For example:
-
-```bash
-cd services/service-a/
-make dev
-```
-
-

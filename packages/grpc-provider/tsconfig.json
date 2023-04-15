@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "outDir": "./dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": false,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "declaration": true
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "exclude": ["**/*.spec.ts", "src/**/*.test.ts"],
+  "include": ["src/**/*", "types"]
+}
