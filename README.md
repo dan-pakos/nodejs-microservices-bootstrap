@@ -1,6 +1,6 @@
 # nodejs-microservices-bootstrap
 
-This is the mono-repository containing streaming event-driven microservices design implementation.
+This is the mono-repository containing unary/streaming event-driven microservices bootstrap implementation.
 
 ## Overview
 
@@ -25,6 +25,12 @@ Run the following from the root directory to build all projects
 
 ```bash
 make dev
+```
+
+Once the new package is added to the repository, reinstallation of dependencies will be necessary:
+
+```bash
+make restart
 ```
 
 ## Running tests
