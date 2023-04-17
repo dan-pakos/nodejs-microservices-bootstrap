@@ -9,6 +9,7 @@ mongosh -- "$MONGO_DATABASE" <<EOF
     db.createUser({user: user, pwd: passwd, roles: ["readWrite"]});
     db.createCollection("locations")
     db.locations.insert({
+        "_id": ObjectId("507f1f77bcf86cd799439011")
         "country": "United Kingdom",
         "region": "Greater London",
         "city": "London",

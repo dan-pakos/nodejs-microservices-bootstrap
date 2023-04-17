@@ -76,8 +76,8 @@ const server = async () => {
             produces: ['application/json'],
             tags: [
                 {
-                    name: 'venue',
-                    description: `Endpoint for querying single data details`,
+                    name: 'locations',
+                    description: `Sample endpoint documentation`,
                 },
             ],
             securityDefinitions: {

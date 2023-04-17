@@ -33,18 +33,6 @@ Once the new package is added to the repository, reinstallation of dependencies 
 make restart
 ```
 
-## Running tests
-
-This project uses [Jest](https://jestjs.io/) for unit and integration tests. Run
-all the tests from the mono-repo root directory using
-
-The tests can be run in individual projects with the `test` alias for example
-
-```
-cd services/service-a
-make test --profile=service-a
-```
-
 ## Building the project
 
 Run the following from the root directory to build all projects

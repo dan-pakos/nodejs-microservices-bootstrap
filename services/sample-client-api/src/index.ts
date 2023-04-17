@@ -8,7 +8,8 @@ server()
     .then((app) => {
         app.listen({ port: <number>port, host: <string>host })
 
-            // .then(() => {
+            // .then(async () => {
+            //     await app.ready()
             //     app.swagger()
             // })
 

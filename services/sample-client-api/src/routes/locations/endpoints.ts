@@ -56,8 +56,6 @@ const locationsRoutes = async (fast: FastifyInstance) => {
                     return
                 }
 
-                console.log(`location`, location)
-
                 reply.send(location)
             } catch (err) {
                 /**

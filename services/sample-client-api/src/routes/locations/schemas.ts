@@ -34,6 +34,7 @@ export const getLocationSchema = {
             id: { type: 'string' },
         },
     },
+
     response: {
         200: {
             description: 'Successful response',
