@@ -47,3 +47,9 @@ Each project has its own `Dockerfile` file. Docker
 builds must be run from the root folder of the repo pointing to the
 desired `Dockerfile` so that Turbo can [prune
 workspaces](https://turbo.build/repo/docs/handbook/deploying-with-docker#the-solution).
+
+## Documentation
+
+### Sample Client API
+
+The Swagger style documentation for RESTfull API with examples is available locally: http://localhost:8031/documentation
