@@ -1,20 +1,5 @@
 {
-    "compilerOptions": {
-        "target": "es2020",
-        "module": "nodenext",
-        "moduleResolution": "nodenext",
-        "outDir": "./dist",
-        "rootDir": "src",
-        "strict": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": false,
-        "noImplicitAny": false,
-        "allowJs": true
-    },
-    "ts-node": {
-        "esm": true
-    },
+    "extends": "tsconfig/base.json",
     "exclude": ["**/*.spec.ts", "src/**/*.test.ts"],
     "include": ["src/**/*", "types"]
 }
