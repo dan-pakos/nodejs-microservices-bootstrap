@@ -47,18 +47,14 @@ export default class KsqlDBClient {
     }
 
     async request2(query) {
-        try {
-            const response = await fetch(this.#address, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/vnd.ksql.v1+json',
-                },
-                body: JSON.stringify(query),
-            })
+        const response = await fetch(this.#address, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/vnd.ksql.v1+json',
+            },
+            body: JSON.stringify(query),
+        })
 
-            return await response.json()
-        } catch (error) {
-            throw error
-        }
+        return await response.json()
     }
 }

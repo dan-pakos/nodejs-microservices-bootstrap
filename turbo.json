@@ -1,4 +1,5 @@
 {
+  "globalDotEnv": [".env.development"],
   "pipeline": {
     "build": {
       "outputs": ["dist/**"],

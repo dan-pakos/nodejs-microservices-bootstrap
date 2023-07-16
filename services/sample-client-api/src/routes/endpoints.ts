@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyRequest } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import { createRequire } from 'module'
 
 const requireJson = createRequire(import.meta.url)

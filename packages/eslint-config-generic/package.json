@@ -1,0 +1,15 @@
+{
+  "name": "eslint-config-generic",
+  "version": "1.0.0",
+  "description": "Generic eslint config",
+  "main": "index.js",
+  "author": "daniel@pakos.email",
+  "license": "ISC",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-config-turbo": "latest"
+  }
+}

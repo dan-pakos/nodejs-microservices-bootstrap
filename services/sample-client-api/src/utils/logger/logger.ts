@@ -9,8 +9,8 @@ const packageJson = requireJson('../../../package.json')
 
 const producerOptions: any = {
     client: {
-        id: process.env.BROKER_CLIENT_ID,
-        brokers: process.env.BROKER_URL,
+        id: process.env.EVB_BROKER_CLIENT_ID,
+        brokers: process.env.EVB_BROKER_URL,
     },
     topic: process.env['AO_TOPICS_LOGS'],
     messageKey: packageJson.name,

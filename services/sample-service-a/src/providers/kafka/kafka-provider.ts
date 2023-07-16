@@ -38,7 +38,7 @@ Kafka.KafkaConsumer.prototype.connectAsync = async function (
     })
 }
 
-Kafka.KafkaConsumer.prototype.eachMessage = function (cb) {
+Kafka.KafkaConsumer.prototype.eachMessage = function () {
     return new Promise((resolve, reject) => {
         this.on('data', (data) => {
             resolve(data)

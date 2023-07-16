@@ -25,11 +25,7 @@ class LocationsController {
      */
     async getLocation(requestData) {
         const { id } = requestData
-        try {
-            return await this.model.findOne({ _id: id })
-        } catch (err) {
-            throw err
-        }
+        return await this.model.findOne({ _id: id })
     }
 
     /**
@@ -48,11 +44,7 @@ class LocationsController {
             'location.city': city,
         }
 
-        try {
-            return await this.model.findMany(query, limit, skip)
-        } catch (err) {
-            throw err
-        }
+        return await this.model.findMany(query, limit, skip)
     }
 }
 
