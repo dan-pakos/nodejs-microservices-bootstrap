@@ -4,7 +4,6 @@ import Kafka from 'node-rdkafka'
  * This utility extends callback style node-rdkafka with asynchronous methods
  */
 
-
 /**
  * Extend node-rdkafka types for TypeScript
  */

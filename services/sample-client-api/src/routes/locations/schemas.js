@@ -24,7 +24,7 @@ export const findLocationsSchema = {
         },
     },
     tags: ['locations'], // used by openAPI spec
-};
+}
 export const getLocationSchema = {
     params: {
         type: 'object',
@@ -64,4 +64,4 @@ export const getLocationSchema = {
         },
     },
     tags: ['locations'],
-};
+}
