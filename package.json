@@ -11,7 +11,7 @@
     "clean": "turbo clean",
     "build": "turbo build",
     "watch": "tsc --build --watch",
-    "test": "turbo run test --filter=[HEAD~]",
+    "test": "turbo run test --filter=...[HEAD~]",
     "lint": "turbo run lint",
     "format": "turbo run format",
     "precommit": "turbo run format lint",
