@@ -1,6 +1,6 @@
 describe('Placeholder', () => {
     it('should run test', () => {
-        // Just a placeholder for future tests 1
+        // Just a placeholder for future tests 2
         expect(true).toBe(true)
     })
 })
