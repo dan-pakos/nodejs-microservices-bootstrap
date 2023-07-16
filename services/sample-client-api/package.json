@@ -9,7 +9,7 @@
         "test-all": "npm-run-all --sequential test:*",
         "test": "npm-run-all --sequential test:unit",
         "test:unit": "jest -c jest.unit.config.js --findRelatedTests a",
-        "test:integration": "jest -o -c jest.integration.config.js",
+        "test:integration": "jest -c jest.integration.config.js --findRelatedTests a",
         "build": "tsc --build",
         "start": "node -r dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts | pino-pretty --colorize",
         "dev": "nodemon -r dotenv/config -L --inspect=127.0.0.1:3000 src/index.ts | pino-pretty --colorize",
@@ -41,7 +41,8 @@
     "lint-staged": {
         "src/**/*.{js,ts}": [
             "npm run lint",
-            "npm run format"
+            "npm run format",
+            "npm run test:unit"
         ]
     },
     "engines": {
