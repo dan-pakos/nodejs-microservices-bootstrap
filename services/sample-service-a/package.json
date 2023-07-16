@@ -8,8 +8,8 @@
     "scripts": {
         "test-all": "npm-run-all --sequential test:*",
         "test": "npm-run-all --sequential test:unit",
-        "test:unit": "jest -o -c jest.unit.config.js",
-        "test:integration": "jest -o -c jest.integration.config.js",
+        "test:unit": "jest -c jest.unit.config.js",
+        "test:integration": "jest -c jest.integration.config.js",
         "build": "tsc --build",
         "start": "node -r dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts | pino-pretty --colorize",
         "dev": "nodemon -r dotenv/config -L --inspect=127.0.0.1:3000 src/index.ts | pino-pretty --colorize",
