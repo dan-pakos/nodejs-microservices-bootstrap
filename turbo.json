@@ -5,9 +5,15 @@
       "outputs": ["dist/**"],
       "dependsOn": ["^build"]
     },
-    "lint": {},
-    "format": {},
-    "test": {},
+    "lint": {
+      "inputs": ["src/**"]
+    },
+    "format": {
+      "inputs": ["src/**"]
+    },
+    "test": {
+      "inputs": ["src/**"]
+    },
     "clean": {}
   }
 }

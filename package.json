@@ -11,8 +11,8 @@
     "clean": "turbo clean",
     "build": "turbo build",
     "watch": "tsc --build --watch",
-    "test": "turbo test",
-    "lint": "turbo run lint",
+    "test": "turbo run test-all --filter='[HEAD^1]'",
+    "lint": "turbo run lint --filter='[HEAD^1]'",
     "format": "turbo run format",
     "precommit": "turbo run format lint",
     "prepare": "husky install"
