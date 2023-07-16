@@ -5,7 +5,7 @@ const host = process.env['APP_HOST'] ?? '127.0.0.1'
 server()
     .then((app) => {
         app.listen({ port: port, host: host })
-            // test #6
+            // test #7
             // .then(async () => {
             //     await app.ready()
             //     app.swagger()
