@@ -11,9 +11,7 @@
     "format": {
       "inputs": ["src/**"]
     },
-    "test": {
-      "inputs": ["src/**"]
-    },
+    "test-all": {},
     "clean": {},
     "lint-staged": {}
   }
