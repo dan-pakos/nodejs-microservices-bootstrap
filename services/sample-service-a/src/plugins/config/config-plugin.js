@@ -1,5 +1,5 @@
-import Config from './config.js';
+import Config from './config.js'
 const configPlugin = () => {
-    return new Config();
-};
-export default configPlugin;
+    return new Config()
+}
+export default configPlugin

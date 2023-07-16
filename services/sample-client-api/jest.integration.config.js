@@ -3,7 +3,7 @@
 const jestConfigIntegration = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    testMatch: ['**/__tests__/**/*.spec.ts'],
+    testMatch: ['src/__tests__/**/*.spec.ts'],
 }
 
 export default jestConfigIntegration

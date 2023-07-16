@@ -10,6 +10,7 @@
     "@typescript-eslint/parser": "latest",
     "eslint": "latest",
     "eslint-config-prettier": "latest",
-    "eslint-config-turbo": "latest"
+    "eslint-config-turbo": "latest",
+    "eslint-plugin-jest": "latest"
   }
 }
