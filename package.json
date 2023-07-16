@@ -14,13 +14,15 @@
     "test": "turbo test",
     "lint": "turbo build lint",
     "format": "turbo build format",
-    "precommit": "turbo build format lint"
+    "precommit": "turbo build format lint",
+    "prepare": "husky install"
   },
   "author": "daniel@pakos.email",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^29.2.3",
     "@types/uuid": "^8.3.4",
+    "husky": "^8.0.3",
     "jest": "^29.3.1",
     "prettier": "^2.7.1",
     "ts-jest": "^29.0.3",
@@ -31,6 +33,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
+    "nodemon": "^3.0.1",
     "uuid": "^9.0.0"
   }
 }
