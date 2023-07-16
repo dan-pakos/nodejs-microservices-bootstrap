@@ -12,9 +12,9 @@
     "build": "turbo build",
     "watch": "tsc --build --watch",
     "test": "turbo test",
-    "lint": "turbo build lint",
-    "format": "turbo build format",
-    "precommit": "turbo build format lint",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "precommit": "turbo run format lint",
     "prepare": "husky install"
   },
   "author": "daniel@pakos.email",
