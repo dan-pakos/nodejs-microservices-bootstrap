@@ -42,7 +42,7 @@ const server = async () => {
                 description: 'API documentation for sample-client-api',
                 version: fast.config.envs.VERSION,
             },
-            // TODO 1
+            // TODO 2
             // externalDocs: {
             //     url: 'https://swagger.io',
             //     description: 'Find more info here',
