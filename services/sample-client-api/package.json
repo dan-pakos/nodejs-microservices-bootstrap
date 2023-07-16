@@ -42,8 +42,7 @@
         "src/**/*.{js,ts}": [
             "lint",
             "format",
-            "test",
-            "git add"
+            "test"
         ]
     },
     "engines": {
