@@ -1,36 +1,36 @@
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import { fastify as Fastify } from 'fastify';
-import fastifyCors from '@fastify/cors';
-import fastifyAutoLoad from '@fastify/autoload';
-import fastifySwagger from '@fastify/swagger';
-import fastifySwaggerUi from '@fastify/swagger-ui';
-import configPlugin from './plugins/config/config-plugin.js';
-import kafkaPlugin from './plugins/kafka/kafka-plugin.js';
-import requestLoggerPlugin from './plugins/request-logger/request-logger-plugin.js';
-import { Logger } from './utils/index.js';
-import ERRORS from './errors/index.js';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+import { fastify as Fastify } from 'fastify'
+import fastifyCors from '@fastify/cors'
+import fastifyAutoLoad from '@fastify/autoload'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
+import configPlugin from './plugins/config/config-plugin.js'
+import kafkaPlugin from './plugins/kafka/kafka-plugin.js'
+import requestLoggerPlugin from './plugins/request-logger/request-logger-plugin.js'
+import { Logger } from './utils/index.js'
+import ERRORS from './errors/index.js'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 const server = async () => {
     const fast = Fastify({
         logger: Logger,
-    });
+    })
     /**
      * Register config Plugin. Imporant: must be first registered
      */
-    await fast.register(configPlugin);
+    await fast.register(configPlugin)
     /**
      * Register Kafka as Plugin.
      */
-    await fast.register(kafkaPlugin);
+    await fast.register(kafkaPlugin)
     /**
      * Register RequestLogger Plugin
      */
     await fast.register(requestLoggerPlugin, {
         topic: fast.config.envs.TOPIC_REQUESTS,
         key: `sample-client-api`,
-    });
+    })
     /**
      * Register swagger plugin
      */
@@ -42,13 +42,16 @@ const server = async () => {
                 description: 'API documentation for sample-client-api',
                 version: fast.config.envs.VERSION,
             },
+            // TODO
             // externalDocs: {
             //     url: 'https://swagger.io',
             //     description: 'Find more info here',
             // },
-            host: `${fast.config.envs.APP_HOST === '0.0.0.0'
-                ? 'localhost'
-                : fast.config.envs.APP_HOST}:${fast.config.envs.APP_PORT}`,
+            host: `${
+                fast.config.envs.APP_HOST === '0.0.0.0'
+                    ? 'localhost'
+                    : fast.config.envs.APP_HOST
+            }:${fast.config.envs.APP_PORT}`,
             schemes: [
                 `${process.env.NODE_ENV === 'development' ? 'http' : 'https'}`,
             ],
@@ -68,17 +71,17 @@ const server = async () => {
                 },
             },
         },
-    });
+    })
     /**
      * Register swagger plugin
      */
     await fast.register(fastifySwaggerUi, {
         routePrefix: fast.config.envs.DOCS_ENDPOINT,
-    });
+    })
     /**
      * Register cors plugin
      */
-    await fast.register(fastifyCors);
+    await fast.register(fastifyCors)
     /**
      * Register API routes
      */
@@ -87,28 +90,28 @@ const server = async () => {
         forceESM: true,
         indexPattern: /endpoints.ts/,
         options: {
-        //  prefix: fast.config("API_PREFIX"), // the URL prefix for an API
+            //  prefix: fast.config("API_PREFIX"), // the URL prefix for an API
         },
-    });
+    })
     fast.setNotFoundHandler((request, reply) => {
-        fast.log.debug(`Route not found: ${request.method}:${request.raw.url}`);
+        fast.log.debug(`Route not found: ${request.method}:${request.raw.url}`)
         reply.status(404).send({
             statusCode: 404,
             error: ERRORS.NOT_FOUND.message,
             message: `Route ${request.method}:${request.raw.url} not found`,
-        });
-    });
+        })
+    })
     fast.setErrorHandler((err, request, reply) => {
-        fast.log.debug(`Request url: ${request.raw.url}`);
-        fast.log.debug(`Payload: ${request.body}`);
-        fast.log.error(`Error occurred: ${err}`);
-        const code = err.code ?? 500;
+        fast.log.debug(`Request url: ${request.raw.url}`)
+        fast.log.debug(`Payload: ${request.body}`)
+        fast.log.error(`Error occurred: ${err}`)
+        const code = err.code ?? 500
         reply.status(code).send({
             statusCode: code,
             error: err.name ?? ERRORS.INTERNAL_SERVER_ERROR.message,
             message: err.message ?? err,
-        });
-    });
-    return fast;
-};
-export default server;
+        })
+    })
+    return fast
+}
+export default server
