@@ -40,7 +40,8 @@
     },
     "lint-staged": {
         "src/**/*.{js,ts}": [
-            "test"
+            "lint",
+            "format"
         ]
     },
     "engines": {
