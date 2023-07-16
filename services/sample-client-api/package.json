@@ -17,7 +17,7 @@
         "lint": "eslint --max-warnings=0 --fix --ext .ts src",
         "lint:ci": "eslint --max-warnings=0 --ext .ts src && prettier --check --ignore-path .gitignore \"**/*.+(js|ts|json)\"",
         "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-        "lint-staged": "npx lint-staged"
+        "lint-staged": "npx lint-staged -v"
     },
     "keywords": [],
     "author": "daniel@pakos.email",
