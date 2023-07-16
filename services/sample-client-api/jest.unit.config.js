@@ -3,7 +3,7 @@
 const jestConfigUnit = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    testMatch: ['**/src/**/*.test.ts'],
+    testMatch: ['<rootDir>/src/**/*.test.ts'],
 }
 
 export default jestConfigUnit
