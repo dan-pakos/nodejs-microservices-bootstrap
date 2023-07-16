@@ -5,18 +5,9 @@
       "outputs": ["dist/**"],
       "dependsOn": ["^build"]
     },
-    "lint": {
-      "outputs": []
-    },
-    "format": {
-      "outputs": []
-    },
-    "test": {
-      "dependsOn": ["build"],
-      "outputs": []
-    },
-    "clean": {
-      "outputs": []
-    }
+    "lint": {},
+    "format": {},
+    "test": {},
+    "clean": {}
   }
 }
