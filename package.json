@@ -1,6 +1,6 @@
 {
   "name": "nodejs-microservices-bootstrap",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Mono repo for microservices-bootstrap",
   "main": "index.js",
   "workspaces": [
@@ -14,7 +14,7 @@
     "test": "turbo run test --filter=...[HEAD~]",
     "lint": "turbo run lint",
     "format": "turbo run format",
-    "precommit": "turbo run format lint",
+    "lint-staged": "turbo run lint-staged",
     "prepare": "husky install"
   },
   "author": "daniel@pakos.email",
@@ -24,6 +24,7 @@
     "@types/uuid": "^8.3.4",
     "husky": "^8.0.3",
     "jest": "^29.3.1",
+    "lint-staged": "^13.2.3",
     "prettier": "^2.7.1",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
