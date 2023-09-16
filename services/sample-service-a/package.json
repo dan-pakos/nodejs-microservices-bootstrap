@@ -6,6 +6,7 @@
     "type": "module",
     "main": "src/index.ts",
     "scripts": {
+        "preinstall": "pnpm dlx only-allow pnpm",
         "test-all": "npm-run-all --sequential test:*",
         "test": "npm-run-all --sequential test:unit",
         "test:unit": "jest -c jest.unit.config.js",
@@ -17,7 +18,7 @@
         "lint": "eslint --max-warnings=0 --fix --ext .ts src",
         "lint:ci": "eslint --max-warnings=0 --ext .ts src && prettier --check --ignore-path .gitignore \"**/*.+(js|ts|json)\"",
         "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-        "lint-staged": "npx lint-staged -v"
+        "lint-staged": "pnpm dlx lint-staged -v"
     },
     "keywords": [],
     "author": "daniel@pakos.email",
@@ -37,8 +38,8 @@
     },
     "lint-staged": {
         "src/**/*.{js,ts}": [
-            "npm run lint",
-            "npm run format"
+            "pnpm run lint",
+            "pnpm run format"
         ]
     },
     "engines": {

@@ -8,6 +8,7 @@
     "services/**"
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "clean": "turbo clean",
     "build": "turbo build",
     "watch": "tsc --build --watch",

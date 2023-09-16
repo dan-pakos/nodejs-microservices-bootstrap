@@ -18,7 +18,7 @@ RUN apk add --no-cache --virtual .build-deps gcc zlib-dev libc-dev bsd-compat-he
 
 WORKDIR /var/web/
 
-RUN npm install -g turbo
+RUN pnpm install -g turbo
 COPY . .
 RUN turbo prune --scope=sample-client-api --docker
 
@@ -47,13 +47,13 @@ WORKDIR /var/web
 COPY .gitignore .gitignore
 COPY --from=builder /var/web/out/json/ .
 COPY --from=builder /var/web/out/package-lock.json .
-RUN npm install
+RUN pnpm install
 
 # Build the project
 COPY --from=builder /var/web/out/full/ .
 COPY turbo.json turbo.json
 
-RUN npm run build --filter=sample-client-api
+RUN pnpm turbo run build --filter=sample-client-api
 
 # RUNNER
 FROM node:18-alpine AS runner
