@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Mono repo for microservices-bootstrap",
   "main": "index.js",
-  "workspaces": [
-    "packages/**",
-    "services/**"
-  ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "clean": "turbo clean",
@@ -35,9 +31,9 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
-    "eslint-config-generic": "*",
+    "eslint-config-generic": "workspace:*",
     "nodemon": "^3.0.1",
-    "tsconfig": "*",
+    "tsconfig": "workspace:*",
     "uuid": "^9.0.0"
   }
 }
