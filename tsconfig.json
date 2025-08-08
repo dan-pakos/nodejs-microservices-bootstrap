@@ -1,9 +1,9 @@
 {
     "extends": "tsconfig/base.json",
     "exclude": ["**/*.spec.ts", "src/**/*.test.ts"],
-    "include": ["src/**/*", "types"],
+    "include": ["services/**/src/**/*", "packages/**/src/**/*", "types"],
     "compilerOptions": {
-        "outDir": "./dist",
+        "outDir": "./build",
         "strict": true
     }
 }

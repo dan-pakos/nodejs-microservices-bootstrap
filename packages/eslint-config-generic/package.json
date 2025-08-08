@@ -2,9 +2,14 @@
   "name": "eslint-config-generic",
   "version": "1.0.0",
   "description": "Generic eslint config",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "index.d.ts",
+  "type": "module",
   "author": "daniel@pakos.email",
   "license": "ISC",
+  "scripts": {
+    "build": "tsc --build"
+  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",

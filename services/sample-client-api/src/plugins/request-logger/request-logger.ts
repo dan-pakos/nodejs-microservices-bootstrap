@@ -14,7 +14,7 @@ export default class RequestsLogger {
         this.#queueSize = opts?.queueSize ?? 100
     }
 
-    async listen(fast, options, done) {
+    listen(fast, options, done) {
         this.#producer = new fast.Kafka.Producer({
             'client.id': fast.config.envs.MAIN_BROKER_CLIENT_ID,
             'metadata.broker.list': fast.config.envs.MAIN_BROKER_URL,

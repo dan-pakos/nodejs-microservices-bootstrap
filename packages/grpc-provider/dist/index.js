@@ -12,7 +12,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _GrpcProvider_instances, _GrpcProvider_defaultConnectionSettings, _GrpcProvider_connectionSettings, _GrpcProvider_proto, _GrpcProvider_client, _GrpcProvider_package, _GrpcProvider__service, _GrpcProvider_loadProto;
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
-export default class GrpcProvider {
+class GrpcProvider {
     set service(serviceName) {
         __classPrivateFieldSet(this, _GrpcProvider__service, serviceName, "f");
     }
@@ -72,4 +72,5 @@ _GrpcProvider_defaultConnectionSettings = new WeakMap(), _GrpcProvider_connectio
     });
     return grpc.loadPackageDefinition(packageDefinition);
 };
+export default GrpcProvider;
 export { GrpcProvider };

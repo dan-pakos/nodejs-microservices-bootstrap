@@ -3,7 +3,7 @@ const requireJson = createRequire(import.meta.url)
 const packageJson = requireJson('../../../package.json')
 
 export default class Config {
-    #_envs: Envs = {
+    envs: Envs = {
         VERSION: packageJson.version.split('.')[0],
         APP_HOST: process.env.SCA_APP_HOST ?? `localhost`,
         APP_PORT: process.env.SCA_APP_PORT ?? `3000`,
@@ -18,13 +18,9 @@ export default class Config {
         SERVICE_ADDRESS: process.env.SSA_ADDRESS ?? ``,
     }
 
-    get envs() {
-        return this.#_envs
-    }
 }
 
 export interface ConfigTypes {
-    (name: string): string
     envs: Envs
 }
 

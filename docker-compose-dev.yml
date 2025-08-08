@@ -1,4 +1,3 @@
-version: "3.8"
 
 ## INDEX ##
 
@@ -82,7 +81,7 @@ services:
     volumes:
       - ./services/sample-service-a/src:/var/web/services/sample-service-a/src
       - /var/web/services/sample-service-a/node_modules
-      - ./services/protos:/var/web/services/protos
+      # - ./services/protos:/var/web/services/protos
     command: bash -c "cd ./services/sample-service-a && npm run dev:docker"
     networks:
       - mb-network
@@ -112,9 +111,12 @@ services:
       timeout: 10s
       retries: 5
       start_period: 10s
+    build:
+      context: .
+      dockerfile: ./services/sample-client-api/Dockerfile.dev
     volumes:
       - mb-db:/data/db
-      - $PWD/configs/sample-database/:/docker-entrypoint-initdb.d/
+      - ./configs/sample-database/:/docker-entrypoint-initdb.d/
     networks:
       - mb-network
 
@@ -143,8 +145,8 @@ services:
     networks:
       - mb-network
 
-  ### 5.2.0 Event Broker Zookeeper
-  ##############################
+  # ### 5.2.0 Event Broker Zookeeper
+  # ##############################
   broker-zookeeper:
     container_name: ${EVB_ZOOKEEPER_NAME}
     image: confluentinc/cp-zookeeper:7.3.0
@@ -154,148 +156,148 @@ services:
     networks:
       - mb-network
 
-  ### 5.3.0 Event Broker ksqlDB
-  ##############################
-  event-broker-ksqldb:
-    container_name: ${EVB_KSQLDB_NAME}
-    hostname: ${EVB_KSQLDB_NAME}
-    image: confluentinc/ksqldb-server:0.27.2
-    depends_on:
-      - event-broker
-    ports:
-      - "${EVB_KSQLDB_PORT}:${EVB_KSQLDB_PORT}"
-    environment:
-      KSQL_LISTENERS: http://${EVB_KSQLDB_NAME}:${EVB_KSQLDB_PORT}
-      KSQL_BOOTSTRAP_SERVERS: ${EVB_BROKER_NAME}:${EVB_BROKER_PORT}
-      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
-    networks:
-      - mb-network
+  # ### 5.3.0 Event Broker ksqlDB
+  # ##############################
+  # event-broker-ksqldb:
+  #   container_name: ${EVB_KSQLDB_NAME}
+  #   hostname: ${EVB_KSQLDB_NAME}
+  #   image: confluentinc/ksqldb-server:0.27.2
+  #   depends_on:
+  #     - event-broker
+  #   ports:
+  #     - "${EVB_KSQLDB_PORT}:${EVB_KSQLDB_PORT}"
+  #   environment:
+  #     KSQL_LISTENERS: http://${EVB_KSQLDB_NAME}:${EVB_KSQLDB_PORT}
+  #     KSQL_BOOTSTRAP_SERVERS: ${EVB_BROKER_NAME}:${EVB_BROKER_PORT}
+  #     KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+  #     KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+  #   networks:
+  #     - mb-network
 
-  ### 5.3.1 Event Broker ksqldb CLI
-  ##############################
-  broker-ksqldb-cli:
-    container_name: ${EVB_KSQLDB_CLI_NAME}
-    image: confluentinc/ksqldb-cli:0.27.2
-    depends_on:
-      - event-broker
-      - event-broker-ksqldb
-    entrypoint: /bin/sh
-    tty: true
-    networks:
-      - mb-network
+  # ### 5.3.1 Event Broker ksqldb CLI
+  # ##############################
+  # broker-ksqldb-cli:
+  #   container_name: ${EVB_KSQLDB_CLI_NAME}
+  #   image: confluentinc/ksqldb-cli:0.27.2
+  #   depends_on:
+  #     - event-broker
+  #     - event-broker-ksqldb
+  #   entrypoint: /bin/sh
+  #   tty: true
+  #   networks:
+  #     - mb-network
 
-  ### 5.4.0 Event Broker Connect ELK Config
-  ##############################
-  broker-connect-elk-config:
-    image: confluentinc/cp-kafka-connect:5.4.9
-    restart: "no"
-    depends_on:
-      - broker-zookeeper
-      - event-broker
-      - elasticsearch
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: ${EVB_BROKER_NAME}:${EVB_BROKER_PORT}
-    volumes:
-      - $PWD/configs/kafka-connect-elk/scripts:/usr/shared/runner/scripts
-    command: sh /usr/shared/runner/scripts/config-and-activate.sh -b ${AO_ES_NAME}:${AO_ES_PORT} -t "${AO_TOPICS_LOGS},${AO_TOPICS_REQUESTS}"
-    networks:
-      - mb-network
+  # ### 5.4.0 Event Broker Connect ELK Config
+  # ##############################
+  # broker-connect-elk-config:
+  #   image: confluentinc/cp-kafka-connect:5.4.9
+  #   restart: "no"
+  #   depends_on:
+  #     - broker-zookeeper
+  #     - event-broker
+  #     - elasticsearch
+  #   environment:
+  #     CONNECT_BOOTSTRAP_SERVERS: ${EVB_BROKER_NAME}:${EVB_BROKER_PORT}
+  #   volumes:
+  #     - $PWD/configs/kafka-connect-elk/scripts:/usr/shared/runner/scripts
+  #   command: sh /usr/shared/runner/scripts/config-and-activate.sh -b ${AO_ES_NAME}:${AO_ES_PORT} -t "${AO_TOPICS_LOGS},${AO_TOPICS_REQUESTS}"
+  #   networks:
+  #     - mb-network
 
-  ### 5.4.1 Event Broker Connect ELK
-  ##############################
-  broker-connect-elk:
-    container_name: ${EVB_BROKER_CONNECT_ELK_NAME}
-    image: confluentinc/cp-kafka-connect:5.4.9
-    ports:
-      - "${EVB_BROKER_CONNECT_ELK_PORT}:${EVB_BROKER_CONNECT_ELK_PORT}"
-    depends_on:
-      - broker-zookeeper
-      - event-broker
-      - elasticsearch
-    volumes:
-      - $PWD/configs/kafka-connect-elk/connect-plugins:/usr/local/share/kafka/plugins/
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: ${EVB_BROKER_NAME}:${EVB_BROKER_PORT}
-      CONNECT_REST_PORT: ${EVB_BROKER_CONNECT_ELK_PORT}
-      CONNECT_GROUP_ID: "connect"
-      CONNECT_CONFIG_STORAGE_TOPIC: connect-config
-      CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets
-      CONNECT_STATUS_STORAGE_TOPIC: connect-status
-      CONNECT_REPLICATION_FACTOR: 1
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
-      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
-      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
-      CONNECT_REST_ADVERTISED_HOST_NAME: "connect"
-      CONNECT_ZOOKEEPER_CONNECT: ${EVB_ZOOKEEPER_NAME}:${EVB_ZOOKEEPER_CLIENT_PORT}
-      CONNECT_PLUGIN_PATH: /usr/share/java/,/etc/kafka-connect/jars,/usr/local/share/kafka/plugins/
-      CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
-      CONNECT_LOG4J_LOGGERS: org.reflections=ERROR
-      CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-3.3.0.jar
-    networks:
-      - mb-network
+  # ### 5.4.1 Event Broker Connect ELK
+  # ##############################
+  # broker-connect-elk:
+  #   container_name: ${EVB_BROKER_CONNECT_ELK_NAME}
+  #   image: confluentinc/cp-kafka-connect:5.4.9
+  #   ports:
+  #     - "${EVB_BROKER_CONNECT_ELK_PORT}:${EVB_BROKER_CONNECT_ELK_PORT}"
+  #   depends_on:
+  #     - broker-zookeeper
+  #     - event-broker
+  #     - elasticsearch
+  #   volumes:
+  #     - $PWD/configs/kafka-connect-elk/connect-plugins:/usr/local/share/kafka/plugins/
+  #   environment:
+  #     CONNECT_BOOTSTRAP_SERVERS: ${EVB_BROKER_NAME}:${EVB_BROKER_PORT}
+  #     CONNECT_REST_PORT: ${EVB_BROKER_CONNECT_ELK_PORT}
+  #     CONNECT_GROUP_ID: "connect"
+  #     CONNECT_CONFIG_STORAGE_TOPIC: connect-config
+  #     CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets
+  #     CONNECT_STATUS_STORAGE_TOPIC: connect-status
+  #     CONNECT_REPLICATION_FACTOR: 1
+  #     CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+  #     CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+  #     CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+  #     CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+  #     CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+  #     CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+  #     CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+  #     CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+  #     CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+  #     CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
+  #     CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
+  #     CONNECT_REST_ADVERTISED_HOST_NAME: "connect"
+  #     CONNECT_ZOOKEEPER_CONNECT: ${EVB_ZOOKEEPER_NAME}:${EVB_ZOOKEEPER_CLIENT_PORT}
+  #     CONNECT_PLUGIN_PATH: /usr/share/java/,/etc/kafka-connect/jars,/usr/local/share/kafka/plugins/
+  #     CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
+  #     CONNECT_LOG4J_LOGGERS: org.reflections=ERROR
+  #     CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-3.3.0.jar
+  #   networks:
+  #     - mb-network
 
-  ##############################
-  # 6. ANALYTICS & OBSERVABILITY (AO)
-  ##############################
+  # ##############################
+  # # 6. ANALYTICS & OBSERVABILITY (AO)
+  # ##############################
 
-  ### 6.1.0 Elasticsearch Service
-  ##############################
-  elasticsearch:
-    container_name: ${AO_ES_NAME}
-    image: docker.elastic.co/elasticsearch/elasticsearch:${AO_ES_STACK_VERSION}
-    ports:
-      - "${AO_ES_PORT}:${AO_ES_PORT}"
-    environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "MAIN_ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - cluster.routing.allocation.disk.threshold_enabled=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    networks:
-      - mb-network
+  # ### 6.1.0 Elasticsearch Service
+  # ##############################
+  # elasticsearch:
+  #   container_name: ${AO_ES_NAME}
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:${AO_ES_STACK_VERSION}
+  #   ports:
+  #     - "${AO_ES_PORT}:${AO_ES_PORT}"
+  #   environment:
+  #     - xpack.security.enabled=false
+  #     - discovery.type=single-node
+  #     - bootstrap.memory_lock=true
+  #     - "MAIN_ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     - cluster.routing.allocation.disk.threshold_enabled=false
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   networks:
+  #     - mb-network
 
-  ### 6.2.0 ES Kibana
-  ##############################
-  kibana:
-    depends_on:
-      - elasticsearch
-    image: docker.elastic.co/kibana/kibana:${AO_ES_STACK_VERSION}
-    volumes:
-      - kibanadata:/usr/share/kibana/data
-    ports:
-      - ${AO_KIBANA_PORT}:${AO_KIBANA_PORT}
-    env_file:
-      - .env.development
-    environment:
-      - SERVERNAME=kibana
-      - ELASTICSEARCH_HOSTS=http://${AO_ES_NAME}:${AO_ES_PORT}
-      - ELASTICSEARCH_USERNAME=${AO_KIBANA_USER}
-      - ELASTICSEARCH_PASSWORD=${AO_KIBANA_PASSWORD}
-    mem_limit: ${AO_ES_MEM_LIMIT}
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -s -I http://localhost:${AO_KIBANA_PORT} | grep -q 'HTTP/1.1 302 Found'",
-        ]
-      interval: 10s
-      timeout: 10s
-      retries: 120
-    networks:
-      - mb-network
+  # ### 6.2.0 ES Kibana
+  # ##############################
+  # kibana:
+  #   depends_on:
+  #     - elasticsearch
+  #   image: docker.elastic.co/kibana/kibana:${AO_ES_STACK_VERSION}
+  #   volumes:
+  #     - kibanadata:/usr/share/kibana/data
+  #   ports:
+  #     - ${AO_KIBANA_PORT}:${AO_KIBANA_PORT}
+  #   env_file:
+  #     - .env.development
+  #   environment:
+  #     - SERVERNAME=kibana
+  #     - ELASTICSEARCH_HOSTS=http://${AO_ES_NAME}:${AO_ES_PORT}
+  #     - ELASTICSEARCH_USERNAME=${AO_KIBANA_USER}
+  #     - ELASTICSEARCH_PASSWORD=${AO_KIBANA_PASSWORD}
+  #   mem_limit: ${AO_ES_MEM_LIMIT}
+  #   healthcheck:
+  #     test:
+  #       [
+  #         "CMD-SHELL",
+  #         "curl -s -I http://localhost:${AO_KIBANA_PORT} | grep -q 'HTTP/1.1 302 Found'",
+  #       ]
+  #     interval: 10s
+  #     timeout: 10s
+  #     retries: 120
+  #   networks:
+  #     - mb-network
 
 ##############################
 # SHARED RESOURCES

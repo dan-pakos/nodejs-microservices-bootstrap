@@ -12,7 +12,6 @@ export default class Config {
 }
 
 export interface ConfigTypes {
-    (name: string): string
     envs: Envs
 }
 

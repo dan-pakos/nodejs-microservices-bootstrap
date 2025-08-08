@@ -5,7 +5,11 @@ const terminate = (
     options = { coredump: false, timeout: 500 }
 ) => {
     const exit = () => {
-        options.coredump ? process.abort() : process.exit(0)
+        if(options.coredump) { 
+            process.abort()
+        } else {
+            process.exit(0)
+        }
     }
 
     return () => async (err: Error) => {

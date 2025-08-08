@@ -3,16 +3,15 @@ import fp from 'fastify-plugin'
 
 import RequestsLogger from './request-logger.js'
 
-const requestLoggerPlugin = async (
-    fast: FastifyInstance,
+const requestLoggerPlugin = (
+    fastify: FastifyInstance,
     options: FastifyPluginOptions,
     done: () => void
 ) => {
-    void options
 
     const requestLogger = new RequestsLogger(options)
 
-    await requestLogger.listen(fast, options, done)
+    requestLogger.listen(fastify, options, done)
 
     done()
 }

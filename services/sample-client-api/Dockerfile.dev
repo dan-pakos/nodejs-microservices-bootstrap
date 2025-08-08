@@ -1,5 +1,5 @@
-# BUILDER
-FROM node:18-alpine AS builder
+# BASE
+FROM node:22-alpine AS base
 
 RUN apk --no-cache add \
       bash \
@@ -8,38 +8,26 @@ RUN apk --no-cache add \
       lz4-dev \
       musl-dev \
       cyrus-sasl-dev \
-      openssl-dev \
+      openssl \
       make \
       python3 \
-      libc6-compat \
-      openssl1.1-compat
+      libc6-compat
 
 RUN apk add --no-cache --virtual .build-deps gcc zlib-dev libc-dev bsd-compat-headers py-setuptools bash
 
+RUN npm install -g turbo
+
+# BUILDER
+FROM base AS builder
+
 WORKDIR /var/web/
 
-RUN pnpm install -g turbo
 COPY . .
 RUN turbo prune --scope=sample-client-api --docker
 
 # INSTALLER
 # Add lockfile and package.json's of isolated subworkspace
-FROM node:18-alpine AS installer
-
-RUN apk --no-cache add \
-      bash \
-      g++ \
-      ca-certificates \
-      lz4-dev \
-      musl-dev \
-      cyrus-sasl-dev \
-      openssl-dev \
-      make \
-      python3 \
-      libc6-compat \
-      openssl1.1-compat
-
-RUN apk add --no-cache --virtual .build-deps gcc zlib-dev libc-dev bsd-compat-headers py-setuptools bash
+FROM base AS installer
 
 WORKDIR /var/web
 
@@ -47,31 +35,16 @@ WORKDIR /var/web
 COPY .gitignore .gitignore
 COPY --from=builder /var/web/out/json/ .
 COPY --from=builder /var/web/out/package-lock.json .
-RUN pnpm install
+RUN npm install
 
 # Build the project
 COPY --from=builder /var/web/out/full/ .
 COPY turbo.json turbo.json
 
-RUN pnpm turbo run build --filter=sample-client-api
+RUN turbo run build --filter=sample-client-api
 
 # RUNNER
-FROM node:18-alpine AS runner
-
-RUN apk --no-cache add \
-      bash \
-      g++ \
-      ca-certificates \
-      lz4-dev \
-      musl-dev \
-      cyrus-sasl-dev \
-      openssl-dev \
-      make \
-      python3 \
-      libc6-compat \
-      openssl1.1-compat
-
-RUN apk add --no-cache --virtual .build-deps gcc zlib-dev libc-dev bsd-compat-headers py-setuptools bash
+FROM base AS runner
 
 WORKDIR /var/web
 

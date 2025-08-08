@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm audit --audit-level=high && pnpm run lint && pnpm run format
+npm audit --audit-level=high && npm run lint && npm run format

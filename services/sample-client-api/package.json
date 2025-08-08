@@ -6,7 +6,6 @@
     "type": "module",
     "main": "src/index.ts",
     "scripts": {
-        "preinstall": "pnpm dlx only-allow pnpm",
         "test-all": "npm-run-all --sequential test:*",
         "test": "npm-run-all --sequential test:unit",
         "test:unit": "jest -c jest.unit.config.js",
@@ -30,16 +29,13 @@
         "fastify": "^4.10.2",
         "fastify-cli": "^5.6.0",
         "fastify-plugin": "^4.3.0",
-        "grpc-provider": "workspace:*",
+        "grpc-provider": "*",
         "node-rdkafka": "^2.15.0",
         "pino": "^8.7.0",
         "pino-pretty": "^9.1.1"
     },
     "devDependencies": {
-        "npm-run-all": "^4.1.5"
-    },
-    "engines": {
-        "node": "~18",
-        "pnpm": "~8"
+        "npm-run-all": "^4.1.5",
+        "eslint-config-generic": "*"
     }
 }

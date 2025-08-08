@@ -10,7 +10,7 @@ declare module 'fastify' {
 }
 
 const configPlugin = (
-    fast: FastifyInstance,
+    fastify: FastifyInstance,
     options: FastifyPluginOptions,
     done: () => void
 ) => {
@@ -19,7 +19,7 @@ const configPlugin = (
     // etc
     const config = new Config()
 
-    fast.decorate('config', config)
+    fastify.decorate('config', config)
 
     done()
 }
