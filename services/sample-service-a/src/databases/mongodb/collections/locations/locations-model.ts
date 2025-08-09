@@ -3,14 +3,14 @@ import Model from '../../abstract/model.js'
 import { Logger } from '../../../../utils/index.js'
 
 interface FinOneFilter {
-    _id: ObjectId;
+    _id: ObjectId
 }
 
 interface FinManyFilter {
-    'location.country'?: string;
-    'location.city'?: string;
-    'location.postode'?: string;
-    'location.region'?: string;
+    'location.country'?: string
+    'location.city'?: string
+    'location.postode'?: string
+    'location.region'?: string
 }
 
 export default class LocationsModel extends Model {

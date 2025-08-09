@@ -10,11 +10,11 @@ const packageJson = requireJson('../../../package.json')
 
 export interface ProducerOptions {
     client: {
-        id: string;
-        brokers: string;
-    },
-    topic: string;
-    messageKey: string;
+        id: string
+        brokers: string
+    }
+    topic: string
+    messageKey: string
 }
 
 interface LogingStream {
@@ -22,7 +22,7 @@ interface LogingStream {
     stream: ProducerStream
 }
 
-const config = new Config();
+const config = new Config()
 
 const producerOptions: ProducerOptions = {
     client: {

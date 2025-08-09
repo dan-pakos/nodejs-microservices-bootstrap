@@ -5,11 +5,11 @@ interface KsqlQuery {
 }
 
 export default class KsqlDBClient {
-    #address: string;
-    #client: ClientHttp2Session;
+    #address: string
+    #client: ClientHttp2Session
 
     constructor(ksqlDBBaseUrl: string) {
-        this.#address = ksqlDBBaseUrl;
+        this.#address = ksqlDBBaseUrl
     }
 
     connect() {

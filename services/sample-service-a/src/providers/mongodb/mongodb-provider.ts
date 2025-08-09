@@ -4,7 +4,7 @@ class MongoDbProvider {
     #defaultSettings: MongoClientOptions = {}
 
     #client: MongoClient
-    #db: Db;
+    #db: Db
     #dbName = ``
 
     get client() {

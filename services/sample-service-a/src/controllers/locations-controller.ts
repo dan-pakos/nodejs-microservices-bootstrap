@@ -7,8 +7,8 @@ interface LocationRequestData {
 
 interface LocationsRequestData {
     location: {
-        country: string;
-        city: string;
+        country: string
+        city: string
     }
 }
 
@@ -29,8 +29,6 @@ export class LocationsController {
 
         return this
     }
-
-
 
     /**
      * Async method for returning location by an id

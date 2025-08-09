@@ -1,6 +1,9 @@
 import { Db } from 'mongodb'
 import Config from './../plugins/config/config.js'
-import { locationsController, LocationsController } from '../controllers/locations-controller.js'
+import {
+    locationsController,
+    LocationsController,
+} from '../controllers/locations-controller.js'
 import mongo from '../plugins/mongodb/mongodb-plugin.js'
 
 /**

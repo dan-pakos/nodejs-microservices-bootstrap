@@ -8,8 +8,6 @@ export default class Config {
         BROKER_CLIENT_ID: process.env.BROKER_CLIENT_ID ?? ``,
         BROKER_URL: process.env.EVB_BROKER_URL ?? ``,
         TOPICS_LOGS: process.env.AO_TOPICS_LOGS ?? ``,
-
-
     }
 
     get envs() {
