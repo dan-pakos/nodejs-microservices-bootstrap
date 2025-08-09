@@ -2,9 +2,8 @@ import turboConfig from "eslint-config-turbo/flat";
 import tsParser from "@typescript-eslint/parser";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 import js from "@eslint/js";
-import tseslint from 'typescript-eslint';
-import jest from "eslint-plugin-jest"
-
+import tseslint from "typescript-eslint";
+import jest from "eslint-plugin-jest";
 
 export default [
   ...turboConfig,
@@ -13,10 +12,11 @@ export default [
   jest.configs["flat/recommended"],
   ...tseslint.configs.recommended,
   {
-  languageOptions: {
-			parser: tsParser
+    languageOptions: {
+      parser: tsParser,
+    },
+    rules: {
+      "@typescript-eslint/no-explicit-any": ["off"],
+    },
   },
-  rules: {
-    "@typescript-eslint/no-explicit-any": ["off"],
-  },
-}]
+];

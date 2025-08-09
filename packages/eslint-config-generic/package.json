@@ -8,7 +8,8 @@
   "author": "daniel@pakos.email",
   "license": "ISC",
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "format": "prettier ./src --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "latest",

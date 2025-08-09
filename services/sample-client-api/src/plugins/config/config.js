@@ -14,10 +14,10 @@ var __classPrivateFieldGet =
         return kind === 'm'
             ? f
             : kind === 'a'
-            ? f.call(receiver)
-            : f
-            ? f.value
-            : state.get(receiver)
+              ? f.call(receiver)
+              : f
+                ? f.value
+                : state.get(receiver)
     }
 var _Config__envs
 import { createRequire } from 'module'
