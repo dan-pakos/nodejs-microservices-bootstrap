@@ -1,11 +1,15 @@
-import globals from "globals";
-import genericConfig from "eslint-config-generic";
+import globals from 'globals'
+import genericConfig from 'eslint-config-generic'
 
-export default [...genericConfig, ...[
-  {
-    languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-    }
-}]];
+export default [
+    ...genericConfig,
+    ...[
+        {
+            languageOptions: {
+                globals: {
+                    ...globals.node,
+                },
+            },
+        },
+    ],
+]

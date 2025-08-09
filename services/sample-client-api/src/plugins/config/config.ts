@@ -17,7 +17,6 @@ export default class Config {
         TOPIC_LOGS: process.env.AO_TOPICS_LOGS ?? `logs`,
         SERVICE_ADDRESS: process.env.SSA_ADDRESS ?? ``,
     }
-
 }
 
 export interface ConfigTypes {

@@ -8,7 +8,6 @@ const requestLoggerPlugin = (
     options: FastifyPluginOptions,
     done: () => void
 ) => {
-
     const requestLogger = new RequestsLogger(options)
 
     requestLogger.listen(fastify, options, done)
