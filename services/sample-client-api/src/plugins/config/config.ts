@@ -13,8 +13,8 @@ export default class Config {
         DOCS_ENDPOINT: process.env.SCA_DOCS_ENDPOINT ?? `/documentation`,
         BROKER_CLIENT_ID: process.env.EVB_BROKER_CLIENT_ID ?? ``,
         BROKER_URL: process.env.EVB_BROKER_URL ?? ``,
-        TOPIC_REQUESTS: process.env.AO_TOPICS_REQUESTS ?? `requests`,
-        TOPIC_LOGS: process.env.AO_TOPICS_LOGS ?? `logs`,
+        TOPICS_REQUESTS: process.env.AO_TOPICS_REQUESTS ?? `requests`,
+        TOPICS_LOGS: process.env.AO_TOPICS_LOGS ?? `logs`,
         SERVICE_ADDRESS: process.env.SSA_ADDRESS ?? ``,
     }
 }
@@ -24,7 +24,6 @@ export interface ConfigTypes {
 }
 
 export interface Envs {
-    [id: string]: string
     VERSION: string
     APP_HOST: string
     APP_PORT: string
@@ -32,5 +31,7 @@ export interface Envs {
     DOCS_ENDPOINT: string
     BROKER_CLIENT_ID: string
     BROKER_URL: string
-    TOPIC_REQUESTS: string
+    TOPICS_REQUESTS: string
+    TOPICS_LOGS: string
+    SERVICE_ADDRESS: string
 }

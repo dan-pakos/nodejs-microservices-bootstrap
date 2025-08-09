@@ -1,5 +1,7 @@
 import { createRequire } from 'module'
 import { pino } from 'pino'
+import { ProducerStream } from 'node-rdkafka'
+import Config from '../../plugins/config/config.js'
 
 import kafkaStreamLogger from './kafka-stream-logger.js'
 
@@ -7,16 +9,32 @@ const requireJson = createRequire(import.meta.url)
 const pretty = requireJson('pino-pretty')
 const packageJson = requireJson('../../../package.json')
 
-const producerOptions: any = {
+const config = new Config();
+
+export interface ProducerOptions {
     client: {
-        id: process.env.EVB_BROKER_CLIENT_ID,
-        brokers: process.env.EVB_BROKER_URL,
+        id: string
+        brokers: string
+    }
+    topic: string
+    messageKey: string
+}
+
+interface LogingStream {
+    level?: 'error' | 'warn' | 'info' | 'debug'
+    stream: ProducerStream
+}
+
+const producerOptions: ProducerOptions = {
+    client: {
+        id: config.envs.BROKER_CLIENT_ID,
+        brokers: config.envs.BROKER_URL,
     },
-    topic: process.env['AO_TOPICS_LOGS'],
+    topic: config.envs.TOPICS_LOGS,
     messageKey: packageJson.name,
 }
 
-const loggingStreams: any[] = [
+const loggingStreams: LogingStream[] = [
     { level: 'error', stream: kafkaStreamLogger(producerOptions) },
 ]
 
@@ -33,7 +51,7 @@ if (process.env.NODE_ENV === 'development') {
 const options = {
     level: process.env['LOG_LEVEL'],
     formatters: {
-        level: (level) => ({ level }),
+        level: (level: string) => ({ level }),
     },
     timestamp: () => `,"time":"${new Date(Date.now()).toISOString()}"`,
 }

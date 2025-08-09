@@ -10,6 +10,9 @@ const apiRoutes = async (fast: FastifyInstance, options: object) => {
     // health check
     fast.get('/', () => `Service ${packageJson.name} is working.`)
 
+    // check communication to sample-service-a
+    // fast.get('/service-a', () => `Service ${packageJson.name} is working.`)
+
     fast.get('/version', async () => {
         return { version: packageJson.version }
     })

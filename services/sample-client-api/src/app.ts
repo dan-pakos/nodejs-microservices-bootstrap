@@ -45,7 +45,7 @@ const server = async () => {
      * Register RequestLogger Plugin
      */
     await fast.register(requestLoggerPlugin, {
-        topic: fast.config.envs.TOPIC_REQUESTS,
+        topic: fast.config.envs.TOPICS_REQUESTS,
         key: `sample-client-api`,
     })
 
@@ -64,11 +64,10 @@ const server = async () => {
             //     url: 'https://swagger.io',
             //     description: 'Find more info here',
             // },
-            host: `${
-                fast.config.envs.APP_HOST === '0.0.0.0'
+            host: `${fast.config.envs.APP_HOST === '0.0.0.0'
                     ? 'localhost'
                     : fast.config.envs.APP_HOST
-            }:${fast.config.envs.APP_PORT}`,
+                }:${fast.config.envs.APP_PORT}`,
             schemes: [
                 `${process.env.NODE_ENV === 'development' ? 'http' : 'https'}`,
             ],

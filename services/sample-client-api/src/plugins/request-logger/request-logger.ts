@@ -1,12 +1,14 @@
+import { FastifyInstance, FastifyPluginOptions, DoneFuncWithErrOrRes } from 'fastify'
+
 export default class RequestsLogger {
-    #producer: any
+    #producer!: any
     #acumulator: any[]
     #topic: string = `requests`
-    #mode
-    #key
-    #queueSize
+    #mode: string
+    #key: string
+    #queueSize: number
 
-    constructor(opts) {
+    constructor(opts: FastifyPluginOptions) {
         this.#acumulator = []
         this.#topic = opts.topic
         this.#key = opts.key
@@ -14,10 +16,10 @@ export default class RequestsLogger {
         this.#queueSize = opts?.queueSize ?? 100
     }
 
-    listen(fast, options, done) {
+    listen(fast: FastifyInstance, options: FastifyPluginOptions, done: DoneFuncWithErrOrRes) {
         this.#producer = new fast.Kafka.Producer({
-            'client.id': fast.config.envs.MAIN_BROKER_CLIENT_ID,
-            'metadata.broker.list': fast.config.envs.MAIN_BROKER_URL,
+            'client.id': fast.config.envs.BROKER_CLIENT_ID,
+            'metadata.broker.list': fast.config.envs.BROKER_URL,
             dr_cb: false, // Specifies that we want a delivery-report event to be generated
         })
 
@@ -25,9 +27,9 @@ export default class RequestsLogger {
          * onSend - make sure is passed validation and parsing, push request when sending
          */
         fast.addHook('onSend', (request, reply, payload, done) => {
-            const { body, query, params, rawHeaders } = request
+            const { body, query, params } = request
 
-            const reqData = { key: this.#key, body, query, params, rawHeaders }
+            const reqData = { key: this.#key, body, query, params }
 
             this.#acumulator.push(reqData)
 
@@ -43,7 +45,7 @@ export default class RequestsLogger {
         done()
     }
 
-    #reconcilePropagate(queueSize) {
+    #reconcilePropagate(queueSize: number) {
         if (this.#acumulator.length % queueSize === 0) {
             this.#sendMessage(this.#acumulator)
         } else {
@@ -52,7 +54,7 @@ export default class RequestsLogger {
     }
 
     // setTimeout
-    #scheduleSend() {}
+    #scheduleSend() { }
 
     async #sendMessage(msg: any) {
         const message = typeof msg === 'string' ? msg : JSON.stringify(msg)
