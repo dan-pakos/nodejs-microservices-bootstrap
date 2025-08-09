@@ -1,8 +1,13 @@
 {
     "restartable": "rs",
-    "ignore": [".git", "node_modules/**/node_modules"],
+    "ignore": [
+        ".git",
+        "node_modules/**/node_modules"
+    ],
     "verbose": true,
-    "watch": ["src/"],
+    "watch": [
+        "src/"
+    ],
     "ext": "js,json,ts",
     "exec": "node --es-module-specifier-resolution=node --loader ts-node/esm"
 }
