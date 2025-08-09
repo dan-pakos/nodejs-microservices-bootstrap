@@ -16,7 +16,7 @@
         "dev:docker": "nodemon -r dotenv/config -L --inspect=0.0.0.0 src/index.ts | pino-pretty --colorize",
         "lint": "eslint --max-warnings=0 --fix --ext .ts src",
         "lint:ci": "eslint --max-warnings=0 --ext .ts src && prettier --check --ignore-path .gitignore \"**/*.+(js|ts|json)\"",
-        "format": "prettier ./src --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+        "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
     },
     "keywords": [],
     "author": "daniel@pakos.email",

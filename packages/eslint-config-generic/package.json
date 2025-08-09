@@ -9,7 +9,7 @@
   "license": "ISC",
   "scripts": {
     "build": "tsc --build",
-    "format": "prettier ./src --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "latest",
