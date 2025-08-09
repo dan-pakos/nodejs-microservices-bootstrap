@@ -1,6 +1,17 @@
-import { ObjectId } from 'mongodb'
+import { ObjectId, Db } from 'mongodb'
 import Model from '../../abstract/model.js'
 import { Logger } from '../../../../utils/index.js'
+
+interface FinOneFilter {
+    _id: ObjectId;
+}
+
+interface FinManyFilter {
+    'location.country'?: string;
+    'location.city'?: string;
+    'location.postode'?: string;
+    'location.region'?: string;
+}
 
 export default class LocationsModel extends Model {
     static get collectionName() {
@@ -11,7 +22,7 @@ export default class LocationsModel extends Model {
      * Construct model with DB client
      * @param db - mongoDB client
      */
-    constructor(db) {
+    constructor(db: Db) {
         super(db, LocationsModel.collectionName)
     }
 
@@ -39,7 +50,7 @@ export default class LocationsModel extends Model {
      * @param filter [Object] - defined keys => values
      * @returns [Promise] resolved query or reject with an error
      */
-    async findOne(filter) {
+    async findOne(filter: FinOneFilter) {
         /**
          * Use ObjectId object if _id is specified
          */
@@ -62,7 +73,7 @@ export default class LocationsModel extends Model {
      * @param skip [number=0] - skil result entities
      * @returns [array] - array of found documents or an emapy array
      */
-    async findMany(filter, limit = 0, skip = 0) {
+    async findMany(filter: FinManyFilter, limit: number = 0, skip: number = 0) {
         const cursor = await this.collection
             .find(filter)
             .limit(limit)
@@ -77,7 +88,7 @@ export default class LocationsModel extends Model {
      * @param skip [number=0] - skil result entities
      * @returns [array] - array of found documents or an emapy array
      */
-    async findAll(limit = 0, skip = 0) {
+    async findAll(limit: number = 0, skip: number = 0) {
         const cursor = await this.collection.find().limit(limit).skip(skip)
 
         return (await cursor.count()) ? cursor.toArray() : []

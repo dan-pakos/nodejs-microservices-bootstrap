@@ -7,8 +7,9 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": false,
-    "noImplicitAny": false,
-    "allowJs": true
+    "noImplicitAny": true,
+    "allowJs": true,
+    "strictPropertyInitialization": false
   },
   "ts-node": {
     "esm": true

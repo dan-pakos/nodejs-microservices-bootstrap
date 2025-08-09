@@ -1,11 +1,15 @@
-import http2 from 'http2'
+import { default as http2, ClientHttp2Session } from 'http2'
+
+interface KsqlQuery {
+    [index: string]: string | number
+}
 
 export default class KsqlDBClient {
-    #address
-    #client
+    #address: string;
+    #client: ClientHttp2Session;
 
     constructor(ksqlDBBaseUrl: string) {
-        this.#address = ksqlDBBaseUrl
+        this.#address = ksqlDBBaseUrl;
     }
 
     connect() {
@@ -16,7 +20,7 @@ export default class KsqlDBClient {
         })
     }
 
-    request(query: any, cb = console.log) {
+    request(query: KsqlQuery, cb = console.log) {
         return new Promise((res, rej) => {
             try {
                 const session = this.#client.request({
@@ -46,7 +50,7 @@ export default class KsqlDBClient {
         })
     }
 
-    async request2(query) {
+    async request2(query: KsqlQuery) {
         const response = await fetch(this.#address, {
             method: 'POST',
             headers: {

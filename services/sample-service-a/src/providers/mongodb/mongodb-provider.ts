@@ -1,34 +1,33 @@
-import { MongoClient, MongoClientOptions } from 'mongodb'
+import { MongoClient, MongoClientOptions, Db } from 'mongodb'
 
 class MongoDbProvider {
     #defaultSettings: MongoClientOptions = {}
 
-    #_client: MongoClient
+    #client: MongoClient
+    #db: Db;
+    #dbName = ``
 
     get client() {
-        return this.#_client
+        return this.#client
     }
 
-    #_dbName = ``
-
     get dbName() {
-        return this.#_dbName
+        return this.#dbName
     }
 
     set dbName(name) {
-        this.#_dbName = name
+        this.#dbName = name
     }
 
-    #_db: any = null
-
     get db() {
-        return this.#_db
+        return this.#db
     }
 
     constructor(connectionUrl: string, userSettings: MongoClientOptions = {}) {
         const settings = { ...this.#defaultSettings, ...userSettings }
 
-        this.#_client = new MongoClient(connectionUrl, settings)
+        this.#client = new MongoClient(connectionUrl, settings)
+        this.#db = this.client.db()
     }
 
     async connect(dbName: string) {
@@ -44,13 +43,11 @@ class MongoDbProvider {
         } catch (error: any) {
             console.error(error.message)
             throw error
-        } finally {
-            //await this.client.close();
         }
 
-        this.#_db = this.client.db(this.dbName)
+        this.#db = this.client.db(this.dbName)
 
-        return this.db
+        return this.#db
     }
 }
 

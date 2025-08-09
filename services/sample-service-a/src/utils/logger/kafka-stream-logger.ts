@@ -1,6 +1,7 @@
 import Kafka from '../../providers/kafka/kafka-provider.js'
+import { ProducerOptions } from './logger.js'
 
-export default function KafkaStreamLogger(opts) {
+export default function KafkaStreamLogger(opts: ProducerOptions) {
     const producerStream = Kafka.Producer.createWriteStream(
         {
             'client.id': opts.client.id,

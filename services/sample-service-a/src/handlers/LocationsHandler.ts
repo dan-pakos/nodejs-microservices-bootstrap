@@ -1,13 +1,15 @@
-import { locationsController } from '../controllers/locations-controller.js'
+import { Db } from 'mongodb'
+import Config from './../plugins/config/config.js'
+import { locationsController, LocationsController } from '../controllers/locations-controller.js'
 import mongo from '../plugins/mongodb/mongodb-plugin.js'
 
 /**
  * Implements the LocationsHandler with GRPC methods.
  * @returns Object - closure with defined methods
  */
-function LocationsHandler(config) {
-    let dbClient
-    let ctrl
+function LocationsHandler(config: Config) {
+    let dbClient: Db
+    let ctrl: LocationsController
 
     /**
      * Initialize once the database client and instantiate once the controller
