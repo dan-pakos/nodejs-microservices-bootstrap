@@ -1,41 +1,41 @@
 {
-  "name": "sample-client-api",
-  "version": "0.0.0",
-  "description": "Service for handling users' requests.",
-  "private": true,
-  "type": "module",
-  "main": "src/index.ts",
-  "scripts": {
-    "test-all": "npm-run-all --sequential test:*",
-    "test": "npm-run-all --sequential test:unit",
-    "test:unit": "jest -c jest.unit.config.js",
-    "test:integration": "jest -c jest.integration.config.js",
-    "build": "tsc --build",
-    "start": "node -r dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts | pino-pretty --colorize",
-    "dev": "nodemon -r dotenv/config -L --inspect=127.0.0.1:3000 src/index.ts | pino-pretty --colorize",
-    "dev:docker": "nodemon -r dotenv/config -L --inspect=0.0.0.0 src/index.ts | pino-pretty --colorize",
-    "lint": "eslint --max-warnings=0 --fix --ext .ts src",
-    "lint:ci": "eslint --max-warnings=0 --ext .ts src && prettier --check --ignore-path .gitignore \"**/*.+(js|ts|json)\"",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
-  },
-  "keywords": [],
-  "author": "daniel@pakos.email",
-  "license": "ISC",
-  "dependencies": {
-    "@fastify/autoload": "^5.7.1",
-    "@fastify/cors": "^8.2.0",
-    "@fastify/swagger": "^8.3.1",
-    "@fastify/swagger-ui": "^1.8.0",
-    "fastify": "^4.10.2",
-    "fastify-cli": "^5.6.0",
-    "fastify-plugin": "^4.3.0",
-    "grpc-provider": "*",
-    "node-rdkafka": "^2.15.0",
-    "pino": "^8.7.0",
-    "pino-pretty": "^9.1.1"
-  },
-  "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "eslint-config-generic": "*"
-  }
+    "name": "sample-client-api",
+    "version": "0.0.0",
+    "description": "Service for handling users' requests.",
+    "private": true,
+    "type": "module",
+    "main": "src/index.ts",
+    "scripts": {
+        "test-all": "npm-run-all --sequential test:*",
+        "test": "npm-run-all --sequential test:unit",
+        "test:unit": "jest -c jest.unit.config.js",
+        "test:integration": "jest -c jest.integration.config.js",
+        "build": "tsc --build",
+        "start": "node -r dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts | pino-pretty --colorize",
+        "dev": "nodemon -r dotenv/config -L --inspect=127.0.0.1:3000 src/index.ts | pino-pretty --colorize",
+        "dev:docker": "nodemon -r dotenv/config -L --inspect=0.0.0.0 src/index.ts | pino-pretty --colorize",
+        "lint": "eslint --max-warnings=0 --fix --ext .ts src",
+        "lint:ci": "eslint --max-warnings=0 --ext .ts src && prettier --check --ignore-path .gitignore \"**/*.+(js|ts|json)\"",
+        "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+    },
+    "keywords": [],
+    "author": "daniel@pakos.email",
+    "license": "ISC",
+    "dependencies": {
+        "@fastify/autoload": "^5.7.1",
+        "@fastify/cors": "^8.2.0",
+        "@fastify/swagger": "^8.3.1",
+        "@fastify/swagger-ui": "^1.8.0",
+        "fastify": "^4.10.2",
+        "fastify-cli": "^5.6.0",
+        "fastify-plugin": "^4.3.0",
+        "grpc-provider": "*",
+        "node-rdkafka": "^2.15.0",
+        "pino": "^8.7.0",
+        "pino-pretty": "^9.1.1"
+    },
+    "devDependencies": {
+        "npm-run-all": "^4.1.5",
+        "eslint-config-generic": "*"
+    }
 }

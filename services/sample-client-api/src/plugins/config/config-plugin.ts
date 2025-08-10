@@ -1,30 +1,30 @@
-import { FastifyInstance, FastifyPluginOptions } from "fastify";
-import fp from "fastify-plugin";
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import fp from 'fastify-plugin'
 
-import Config, { ConfigTypes } from "./config.js";
+import Config, { ConfigTypes } from './config.js'
 
-declare module "fastify" {
-  interface FastifyInstance {
-    config: ConfigTypes;
-  }
+declare module 'fastify' {
+    interface FastifyInstance {
+        config: ConfigTypes
+    }
 }
 
 const configPlugin = (
-  fastify: FastifyInstance,
-  options: FastifyPluginOptions,
-  done: () => void,
+    fastify: FastifyInstance,
+    options: FastifyPluginOptions,
+    done: () => void
 ) => {
-  void options;
+    void options
 
-  // etc
-  const config = new Config();
+    // etc
+    const config = new Config()
 
-  fastify.decorate("config", config);
+    fastify.decorate('config', config)
 
-  done();
-};
+    done()
+}
 
 export default fp(configPlugin, {
-  fastify: "4.x",
-  name: "configPlugin",
-});
+    fastify: '4.x',
+    name: 'configPlugin',
+})

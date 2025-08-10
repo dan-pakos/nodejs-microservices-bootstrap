@@ -1,21 +1,21 @@
-import { FastifyInstance, FastifyPluginOptions } from "fastify";
-import fp from "fastify-plugin";
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import fp from 'fastify-plugin'
 
-import RequestsLogger from "./request-logger.js";
+import RequestsLogger from './request-logger.js'
 
 const requestLoggerPlugin = (
-  fastify: FastifyInstance,
-  options: FastifyPluginOptions,
-  done: () => void,
+    fastify: FastifyInstance,
+    options: FastifyPluginOptions,
+    done: () => void
 ) => {
-  const requestLogger = new RequestsLogger(options);
+    const requestLogger = new RequestsLogger(options)
 
-  requestLogger.listen(fastify, options, done);
+    requestLogger.listen(fastify, options, done)
 
-  done();
-};
+    done()
+}
 
 export default fp(requestLoggerPlugin, {
-  fastify: "4.x",
-  name: "requestLoggerPlugin",
-});
+    fastify: '4.x',
+    name: 'requestLoggerPlugin',
+})
