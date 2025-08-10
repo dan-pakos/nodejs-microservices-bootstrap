@@ -19,27 +19,17 @@
     "LOG_LEVEL",
     "BROKER_CLIENT_ID"
   ],
-  "globalDependencies": [
-    ".env.development"
-  ],
-  "pipeline": {
+  "globalDependencies": [".env.development"],
+  "tasks": {
     "build": {
-      "outputs": [
-        "dist/**"
-      ],
-      "dependsOn": [
-        "^build"
-      ]
+      "outputs": ["dist/**"],
+      "dependsOn": ["^build"]
     },
     "lint": {
-      "inputs": [
-        "src/**"
-      ]
+      "inputs": ["src/**"]
     },
     "format": {
-      "inputs": [
-        "src/**"
-      ]
+      "inputs": ["src/**"]
     },
     "test-all": {},
     "clean": {},
