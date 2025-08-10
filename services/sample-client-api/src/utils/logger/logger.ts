@@ -1,61 +1,61 @@
-import { createRequire } from 'module'
-import { pino } from 'pino'
-import { ProducerStream } from 'node-rdkafka'
-import Config from '../../plugins/config/config.js'
+import { createRequire } from "module";
+import { pino } from "pino";
+import { ProducerStream } from "node-rdkafka";
+import Config from "../../plugins/config/config.js";
 
-import kafkaStreamLogger from './kafka-stream-logger.js'
+import kafkaStreamLogger from "./kafka-stream-logger.js";
 
-const requireJson = createRequire(import.meta.url)
-const pretty = requireJson('pino-pretty')
-const packageJson = requireJson('../../../package.json')
+const requireJson = createRequire(import.meta.url);
+const pretty = requireJson("pino-pretty");
+const packageJson = requireJson("../../../package.json");
 
 const config = new Config();
 
 export interface ProducerOptions {
-    client: {
-        id: string
-        brokers: string
-    }
-    topic: string
-    messageKey: string
+  client: {
+    id: string;
+    brokers: string;
+  };
+  topic: string;
+  messageKey: string;
 }
 
 interface LogingStream {
-    level?: 'error' | 'warn' | 'info' | 'debug'
-    stream: ProducerStream
+  level?: "error" | "warn" | "info" | "debug";
+  stream: ProducerStream;
 }
 
 const producerOptions: ProducerOptions = {
-    client: {
-        id: config.envs.BROKER_CLIENT_ID,
-        brokers: config.envs.BROKER_URL,
-    },
-    topic: config.envs.TOPICS_LOGS,
-    messageKey: packageJson.name,
-}
+  client: {
+    id: config.envs.BROKER_CLIENT_ID,
+    brokers: config.envs.BROKER_URL,
+  },
+  topic: config.envs.TOPICS_LOGS,
+  messageKey: packageJson.name,
+};
 
 const loggingStreams: LogingStream[] = [
-    { level: 'error', stream: kafkaStreamLogger(producerOptions) },
-]
+  { level: "error", stream: kafkaStreamLogger(producerOptions) },
+];
 
-if (process.env.NODE_ENV === 'development') {
-    loggingStreams.push({
-        stream: pretty({
-            colorize: true,
-            levelFirst: true,
-            ignore: 'time,pid,hostname',
-        }),
-    })
+if (process.env.NODE_ENV === "development") {
+  loggingStreams.push({
+    stream: pretty({
+      colorize: true,
+      levelFirst: true,
+      ignore: "time,pid,hostname",
+    }),
+  });
 }
 
 const options = {
-    level: process.env['LOG_LEVEL'],
-    formatters: {
-        level: (level: string) => ({ level }),
-    },
-    timestamp: () => `,"time":"${new Date(Date.now()).toISOString()}"`,
-}
+  level: process.env["LOG_LEVEL"],
+  formatters: {
+    level: (level: string) => ({ level }),
+  },
+  timestamp: () => `,"time":"${new Date(Date.now()).toISOString()}"`,
+};
 
-const Logger = pino(options, pino.multistream(loggingStreams))
+const Logger = pino(options, pino.multistream(loggingStreams));
 
-export default Logger
+export default Logger;

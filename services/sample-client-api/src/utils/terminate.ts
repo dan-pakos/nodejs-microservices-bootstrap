@@ -1,25 +1,25 @@
-import { FastifyInstance } from 'fastify'
+import { FastifyInstance } from "fastify";
 
 const terminate = (
-    server: FastifyInstance,
-    options = { coredump: false, timeout: 500 }
+  server: FastifyInstance,
+  options = { coredump: false, timeout: 500 },
 ) => {
-    const exit = () => {
-        if (options.coredump) {
-            process.abort()
-        } else {
-            process.exit(0)
-        }
+  const exit = () => {
+    if (options.coredump) {
+      process.abort();
+    } else {
+      process.exit(0);
+    }
+  };
+
+  return () => async (err: Error) => {
+    if (err) {
+      console.log(err.message, err.stack);
     }
 
-    return () => async (err: Error) => {
-        if (err) {
-            console.log(err.message, err.stack)
-        }
+    server.close(exit);
+    setTimeout(exit, options.timeout);
+  };
+};
 
-        server.close(exit)
-        setTimeout(exit, options.timeout)
-    }
-}
-
-export default terminate
+export default terminate;
