@@ -1,19 +1,14 @@
 import MongoDbProvider from '../../providers/mongodb/mongodb-provider.js'
+const mongoPlugin = (options: any) => {
+    const connect = async () => {
+        const { connectionUrl, dbName } = options
+        // init client connect
+        const Mongo = new MongoDbProvider(connectionUrl)
 
-const mongoPlugin = async (options: Options) => {
-    const { connectionUrl, dbName } = options
-
-    // init client connect
-    const Mongo = new MongoDbProvider(connectionUrl)
-
-    const mongodb = await Mongo.connect(dbName)
-
-    return mongodb
+        return await Mongo.connect(dbName)
+    }
+    return {
+        connect,
+    }
 }
-
 export default mongoPlugin
-
-export type Options = {
-    connectionUrl: string
-    dbName: string
-}

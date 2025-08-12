@@ -1,46 +1,29 @@
-import { fileURLToPath } from 'url'
-import { dirname } from 'path'
 import * as grpc from '@grpc/grpc-js'
-import * as protoLoader from '@grpc/proto-loader'
-
+import { defineServices } from './services/services.js'
 import Config from './plugins/config/config-plugin.js'
+import { App, AppType } from './app.js'
 
-import LocationsHandler from './handlers/LocationsHandler.js'
+const config = Config()
+const app = await App(config)
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-const PROTO_PATH = __dirname + '/../../protos/locations.proto'
-
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-})
-
-const proto = grpc.loadPackageDefinition(packageDefinition) as unknown as any
+await startServer(app)
 
 /**
  * Starts a GRPC server
  */
-async function init() {
-    const config = Config()
+async function startServer(app: AppType): Promise<void> {
     const server = new grpc.Server()
 
-    server.addService(proto.locations.Locations.service, {
-        getLocation: LocationsHandler(config).getLocation,
-        findLocations: LocationsHandler(config).findLocations,
-    })
+    defineServices(server, app)
 
     server.bindAsync(
-        `${config.envs.APP_HOST}:${config.envs.APP_PORT}`,
+        `${app.config.envs.APP_HOST}:${app.config.envs.APP_PORT}`,
         grpc.ServerCredentials.createInsecure(),
-        () => {
-            server.start()
+        (error) => {
+            if (error) {
+                console.error(error)
+                server.forceShutdown()
+            }
         }
     )
 }
-
-await init()

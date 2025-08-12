@@ -1,22 +1,22 @@
 {
-  "name": "eslint-config-generic",
-  "version": "1.0.0",
-  "description": "Generic eslint config",
-  "main": "./dist/index.js",
-  "types": "index.d.ts",
-  "type": "module",
-  "author": "daniel@pakos.email",
-  "license": "ISC",
-  "scripts": {
-    "build": "tsc --build",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
-  },
-  "dependencies": {
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
-    "eslint": "latest",
-    "eslint-config-prettier": "latest",
-    "eslint-config-turbo": "latest",
-    "eslint-plugin-jest": "latest"
-  }
+    "name": "eslint-config-generic",
+    "version": "1.0.0",
+    "description": "Generic eslint config",
+    "main": "./dist/index.js",
+    "types": "index.d.ts",
+    "type": "module",
+    "author": "daniel@pakos.email",
+    "license": "ISC",
+    "scripts": {
+        "build": "tsc --build",
+        "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+    },
+    "dependencies": {
+        "@typescript-eslint/eslint-plugin": "latest",
+        "@typescript-eslint/parser": "latest",
+        "eslint": "latest",
+        "eslint-config-prettier": "latest",
+        "eslint-config-turbo": "latest",
+        "eslint-plugin-jest": "latest"
+    }
 }

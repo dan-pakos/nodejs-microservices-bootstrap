@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package locations;
 
-// Sample service definition.
+
 service Locations {
   rpc getLocation (GetLocationRequest) returns (GetLocationReply) {}
   rpc findLocations (FindLocationsRequest) returns (FindLocationsReply) {}
