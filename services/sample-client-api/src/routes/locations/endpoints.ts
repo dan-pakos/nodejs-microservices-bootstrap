@@ -25,11 +25,10 @@ const locationsRoutes = async (fast: FastifyInstance) => {
         service: `Locations`,
     }
 
-    const grpcClient = new GrpcProvider(connection, protoDef)
-
     /**
-     * Connect to the service
+     * Connect to the service once
      */
+    const grpcClient = new GrpcProvider(connection, protoDef)
     grpcClient.connect()
 
     /**

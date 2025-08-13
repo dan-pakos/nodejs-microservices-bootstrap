@@ -1,17 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "es2020",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": false,
-    "noImplicitAny": true,
-    "allowJs": true,
-    "strictPropertyInitialization": false
-  },
-  "ts-node": {
-    "esm": true
-  }
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": false,
+        "noImplicitAny": true,
+        "allowJs": true,
+        "strictPropertyInitialization": false
+    },
+    "ts-node": {
+        "esm": true
+    }
 }

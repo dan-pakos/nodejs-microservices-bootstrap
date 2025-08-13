@@ -6,20 +6,11 @@ export default class GrpcProvider {
         address: ``,
         creds: grpc.credentials.createInsecure(),
     }
-    #connectionSettings
-    #proto
-    #client
-    #package
-
-    #_service
-
-    set service(serviceName: string) {
-        this.#_service = serviceName
-    }
-
-    get service() {
-        return this.#_service
-    }
+    #connectionSettings: ConnectionSettings
+    #proto: any
+    #client: any
+    #package: any
+    service: string
 
     constructor(
         connectionSettings: ConnectionSettings,
@@ -31,12 +22,10 @@ export default class GrpcProvider {
         }
         this.#proto = this.#loadProto(protoSettings.path)
         this.#package = protoSettings.package
-        if (protoSettings.service) {
-            this.service = protoSettings.service // default service
-        }
+        this.service = protoSettings.service
     }
 
-    #loadProto(path) {
+    #loadProto(path: string) {
         const packageDefinition = protoLoader.loadSync(path, {
             keepCase: true,
             longs: String,
@@ -77,7 +66,7 @@ export default class GrpcProvider {
 interface ProtoSettings {
     path: string
     package: string
-    service?: string // default service
+    service: string
 }
 
 interface ConnectionSettings {

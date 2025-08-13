@@ -7,15 +7,20 @@
         "dist/**"
     ],
     "version": "1.0.0",
-    "description": "Wrapper for grpc.",
+    "description": "Wrapper for grpc client.",
     "private": true,
     "type": "module",
     "scripts": {
         "build": "tsc --build",
+        "lint": "eslint --max-warnings=0 --fix --ext .ts src",
+        "lint:ci": "eslint --max-warnings=0 --ext .ts src && prettier --check --ignore-path .gitignore \"**/*.+(js|ts|json)\"",
         "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
     },
     "dependencies": {
         "@grpc/grpc-js": "^1.13.4",
         "@grpc/proto-loader": "^0.8.0"
+    },
+    "devDependencies": {
+        "eslint-config-generic": "*"
     }
 }
