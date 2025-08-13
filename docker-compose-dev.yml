@@ -1,7 +1,7 @@
 ## INDEX ##
 
 # 1 SAMPLE CLIENT
-# 1.1.0 Sample Client API (SCA)
+# 1.1.0 Sample Client Rest API (SCRA)
 
 # 2. SAMPLE SERVICE
 # 2.1.0 Sample Service-A (SSA)
@@ -26,28 +26,28 @@ services:
   # 1 SAMPLE CLIENT
   ##############################
 
-  ### 1.1.0 Sample Client API (SCA)
+  ### 1.1.0 Sample Client Rest API (SCRA)
   ##############################
-  sample-client-api:
-    container_name: ${SCA_NAME}
-    profiles: [ "main", "sample-client-api" ]
+  sample-client-rest-api:
+    container_name: ${SCRA_NAME}
+    profiles: ["main", "sample-client-rest-api"]
     env_file:
       - .env.development
     environment:
-      APP_HOST: ${SCA_APP_HOST}
-      APP_PORT: ${SCA_APP_PORT}
+      APP_HOST: ${SCRA_APP_HOST}
+      APP_PORT: ${SCRA_APP_PORT}
       NODE_ENV: ${NODE_ENV}
       LOG_LEVEL: ${LOG_LEVEL}
     ports:
-      - "${SCA_APP_PORT}:${SCA_APP_PORT}"
+      - "${SCRA_APP_PORT}:${SCRA_APP_PORT}"
     build:
       context: .
-      dockerfile: ./services/sample-client-api/Dockerfile.dev
+      dockerfile: ./services/sample-client-rest-api/Dockerfile.dev
     volumes:
-      - ./services/sample-client-api/src:/var/web/services/sample-client-api/src
-      - /var/web/services/sample-client-api/node_modules
+      - ./services/sample-client-rest-api/src:/var/web/services/sample-client-rest-api/src
+      - /var/web/services/sample-client-rest-api/node_modules
       - ./services/protos:/var/web/services/protos
-    command: bash -c "cd ./services/sample-client-api && npm run dev:docker"
+    command: bash -c "cd ./services/sample-client-rest-api && npm run dev:docker"
     networks:
       - mb-network
 
@@ -59,7 +59,7 @@ services:
   ##############################
   sample-service:
     container_name: ${SSA_NAME}
-    profiles: [ "main", "sample-service-a" ]
+    profiles: ["main", "sample-service-a"]
     depends_on:
       sample-database:
         condition: service_healthy
@@ -301,7 +301,6 @@ services:
 volumes:
   mb-db:
   kibanadata:
-
 
 networks:
   mb-network:

@@ -5,12 +5,12 @@ const packageJson = requireJson('../../../package.json')
 export default class Config {
     envs: Envs = {
         VERSION: packageJson.version.split('.')[0],
-        APP_HOST: process.env.SCA_APP_HOST ?? `localhost`,
-        APP_PORT: process.env.SCA_APP_PORT ?? `3000`,
+        APP_HOST: process.env.SCRA_APP_HOST ?? `localhost`,
+        APP_PORT: process.env.SCRA_APP_PORT ?? `3000`,
         API_PREFIX:
-            process.env.SCA_APP_PREFIX ??
+            process.env.SCRA_APP_PREFIX ??
             `/v${packageJson.version.split('.')[0]}`,
-        DOCS_ENDPOINT: process.env.SCA_DOCS_ENDPOINT ?? `/documentation`,
+        DOCS_ENDPOINT: process.env.SCRA_DOCS_ENDPOINT ?? `/documentation`,
         BROKER_CLIENT_ID: process.env.EVB_BROKER_CLIENT_ID ?? ``,
         BROKER_URL: process.env.EVB_BROKER_URL ?? ``,
         TOPICS_REQUESTS: process.env.AO_TOPICS_REQUESTS ?? `requests`,
