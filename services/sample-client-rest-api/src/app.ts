@@ -26,121 +26,117 @@ interface Err extends Error {
     code: number
 }
 
-const server = async () => {
-    const fast = Fastify({
-        logger: Logger,
-    })
+const fast = Fastify({
+    loggerInstance: Logger,
+})
 
-    /**
-     * Register config Plugin. Imporant: must be first registered
-     */
-    await fast.register(configPlugin)
+/**
+ * Register config Plugin. Imporant: must be first registered
+ */
+await fast.register(configPlugin)
 
-    /**
-     * Register Kafka as Plugin.
-     */
-    await fast.register(kafkaPlugin)
+/**
+ * Register Kafka as Plugin.
+ */
+await fast.register(kafkaPlugin)
 
-    /**
-     * Register RequestLogger Plugin
-     */
-    await fast.register(requestLoggerPlugin, {
-        topic: fast.config.envs.TOPICS_REQUESTS,
-        key: `sample-client-api`,
-    })
+/**
+ * Register RequestLogger Plugin
+ */
+await fast.register(requestLoggerPlugin, {
+    topic: fast.config.envs.TOPICS_REQUESTS,
+    key: `sample-client-api`,
+})
 
-    /**
-     * Register swagger plugin
-     */
-    await fast.register(fastifySwagger, {
-        mode: 'dynamic',
-        swagger: {
-            info: {
-                title: 'sample-client-api',
-                description: 'API documentation for sample-client-api',
-                version: fast.config.envs.VERSION,
+/**
+ * Register swagger plugin
+ */
+await fast.register(fastifySwagger, {
+    mode: 'dynamic',
+    swagger: {
+        info: {
+            title: 'sample-client-api',
+            description: 'API documentation for sample-client-api',
+            version: fast.config.envs.VERSION,
+        },
+        // externalDocs: {
+        //     url: 'https://swagger.io',
+        //     description: 'Find more info here',
+        // },
+        host: `${
+            fast.config.envs.APP_HOST === '0.0.0.0'
+                ? 'localhost'
+                : fast.config.envs.APP_HOST
+        }:${fast.config.envs.APP_PORT}`,
+        schemes: [
+            `${process.env.NODE_ENV === 'development' ? 'http' : 'https'}`,
+        ],
+        consumes: ['application/json'],
+        produces: ['application/json'],
+        tags: [
+            {
+                name: 'locations',
+                description: `Sample endpoint documentation`,
             },
-            // externalDocs: {
-            //     url: 'https://swagger.io',
-            //     description: 'Find more info here',
-            // },
-            host: `${
-                fast.config.envs.APP_HOST === '0.0.0.0'
-                    ? 'localhost'
-                    : fast.config.envs.APP_HOST
-            }:${fast.config.envs.APP_PORT}`,
-            schemes: [
-                `${process.env.NODE_ENV === 'development' ? 'http' : 'https'}`,
-            ],
-            consumes: ['application/json'],
-            produces: ['application/json'],
-            tags: [
-                {
-                    name: 'locations',
-                    description: `Sample endpoint documentation`,
-                },
-            ],
-            securityDefinitions: {
-                apiKey: {
-                    type: 'apiKey',
-                    name: 'X-api-key',
-                    in: 'header',
-                },
+        ],
+        securityDefinitions: {
+            apiKey: {
+                type: 'apiKey',
+                name: 'X-api-key',
+                in: 'header',
             },
         },
+    },
+})
+
+/**
+ * Register swagger plugin
+ */
+await fast.register(fastifySwaggerUi, {
+    routePrefix: fast.config.envs.DOCS_ENDPOINT,
+})
+
+/**
+ * Register cors plugin
+ */
+await fast.register(fastifyCors)
+
+/**
+ * Register API routes
+ */
+await fast.register(fastifyAutoLoad, {
+    dir: join(__dirname, 'routes'), // folder to scan for routes
+    forceESM: true, // force using ESM import
+    indexPattern: /endpoints.ts/, // filename regex where endpoints are defined
+    options: {
+        //  prefix: fast.config("API_PREFIX"), // the URL prefix for an API
+    },
+})
+
+fast.setNotFoundHandler((request: FastifyRequest, reply: FastifyReply) => {
+    fast.log.debug(`Route not found: ${request.method}:${request.raw.url}`)
+
+    reply.status(404).send({
+        statusCode: 404,
+        error: ERRORS.NOT_FOUND.message,
+        message: `Route ${request.method}:${request.raw.url} not found`,
     })
+})
 
-    /**
-     * Register swagger plugin
-     */
-    await fast.register(fastifySwaggerUi, {
-        routePrefix: fast.config.envs.DOCS_ENDPOINT,
-    })
+fast.setErrorHandler(
+    (err: Err, request: FastifyRequest, reply: FastifyReply) => {
+        fast.log.debug(`Request url: ${request.raw.url}`)
+        fast.log.debug(`Payload: ${request.body}`)
+        fast.log.error(`Error occurred: ${err}`)
 
-    /**
-     * Register cors plugin
-     */
-    await fast.register(fastifyCors)
+        const code = err.code ?? 500
 
-    /**
-     * Register API routes
-     */
-    await fast.register(fastifyAutoLoad, {
-        dir: join(__dirname, 'routes'), // folder to scan for routes
-        forceESM: true, // force using ESM import
-        indexPattern: /endpoints.ts/, // filename regex where endpoints are defined
-        options: {
-            //  prefix: fast.config("API_PREFIX"), // the URL prefix for an API
-        },
-    })
-
-    fast.setNotFoundHandler((request: FastifyRequest, reply: FastifyReply) => {
-        fast.log.debug(`Route not found: ${request.method}:${request.raw.url}`)
-
-        reply.status(404).send({
-            statusCode: 404,
-            error: ERRORS.NOT_FOUND.message,
-            message: `Route ${request.method}:${request.raw.url} not found`,
+        reply.status(code).send({
+            statusCode: code,
+            error: err.name ?? ERRORS.INTERNAL_SERVER_ERROR.message,
+            message: err.message ?? err,
         })
-    })
+    }
+)
 
-    fast.setErrorHandler(
-        (err: Err, request: FastifyRequest, reply: FastifyReply) => {
-            fast.log.debug(`Request url: ${request.raw.url}`)
-            fast.log.debug(`Payload: ${request.body}`)
-            fast.log.error(`Error occurred: ${err}`)
-
-            const code = err.code ?? 500
-
-            reply.status(code).send({
-                statusCode: code,
-                error: err.name ?? ERRORS.INTERNAL_SERVER_ERROR.message,
-                message: err.message ?? err,
-            })
-        }
-    )
-
-    return fast
-}
-
-export default server
+export default fast

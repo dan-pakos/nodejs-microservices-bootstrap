@@ -7,6 +7,8 @@
     "NODE_ENV",
     "APP_HOST",
     "APP_PORT",
+    "SCG_APP_HOST",
+    "SCG_APP_PORT",
     "SCRA_APP_HOST",
     "SCRA_APP_PORT",
     "SCRA_APP_PREFIX",

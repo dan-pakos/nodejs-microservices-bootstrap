@@ -23,7 +23,7 @@ FROM base AS builder
 WORKDIR /var/web/
 
 COPY . .
-RUN turbo prune --scope=sample-client-rest-api --docker
+RUN turbo prune --scope=sample-client-graphql --docker
 
 # INSTALLER
 # Add lockfile and package.json's of isolated subworkspace
@@ -41,7 +41,7 @@ RUN npm install
 COPY --from=builder /var/web/out/full/ .
 COPY turbo.json turbo.json
 
-RUN turbo run build --filter=sample-client-rest-api
+RUN turbo run build --filter=sample-client-graphql
 
 # RUNNER
 FROM base AS runner

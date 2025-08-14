@@ -1,5 +1,5 @@
 import { createRequire } from 'module'
-import { pino } from 'pino'
+import pino from 'pino'
 import { ProducerStream } from 'node-rdkafka'
 import Config from '../../plugins/config/config.js'
 
@@ -38,7 +38,7 @@ const loggingStreams: LogingStream[] = [
     { level: 'error', stream: kafkaStreamLogger(producerOptions) },
 ]
 
-if (process.env.NODE_ENV === 'development') {
+if (config.envs.NODE_ENV === 'development') {
     loggingStreams.push({
         stream: pretty({
             colorize: true,
@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const options = {
-    level: process.env['LOG_LEVEL'],
+    level: config.envs.LOG_LEVEL,
     formatters: {
         level: (level: string) => ({ level }),
     },

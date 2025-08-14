@@ -25,6 +25,6 @@ const configPlugin = (
 }
 
 export default fp(configPlugin, {
-    fastify: '4.x',
+    fastify: '5.x',
     name: 'configPlugin',
 })

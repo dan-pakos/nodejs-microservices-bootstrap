@@ -23,7 +23,7 @@
 
 services:
   ##############################
-  # 1 SAMPLE CLIENT
+  # 1 SAMPLE CLIENTS
   ##############################
 
   ### 1.1.0 Sample Client Rest API (SCRA)
@@ -48,6 +48,31 @@ services:
       - /var/web/services/sample-client-rest-api/node_modules
       - ./services/protos:/var/web/services/protos
     command: bash -c "cd ./services/sample-client-rest-api && npm run dev:docker"
+    networks:
+      - mb-network
+
+  ### 1.1.0 Sample Client GraphQL (SCG)
+  ##############################
+  sample-client-graphql:
+    container_name: ${SCG_NAME}
+    profiles: ["main", "sample-client-graphql"]
+    env_file:
+      - .env.development
+    environment:
+      APP_HOST: ${SCG_APP_HOST}
+      APP_PORT: ${SCG_APP_PORT}
+      NODE_ENV: ${NODE_ENV}
+      LOG_LEVEL: ${LOG_LEVEL}
+    ports:
+      - "${SCG_APP_PORT}:${SCG_APP_PORT}"
+    build:
+      context: .
+      dockerfile: ./services/sample-client-graphql/Dockerfile.dev
+    volumes:
+      - ./services/sample-client-graphql/src:/var/web/services/sample-client-graphql/src
+      - /var/web/services/sample-client-graphql/node_modules
+      - ./services/protos:/var/web/services/protos
+    command: bash -c "cd ./services/sample-client-graphql && npm run dev:docker"
     networks:
       - mb-network
 
@@ -124,7 +149,7 @@ services:
   ##############################
   event-broker:
     container_name: ${EVB_BROKER_NAME}
-    image: confluentinc/cp-kafka:7.3.0
+    image: confluentinc/cp-kafka:latest
     hostname: ${EVB_BROKER_NAME}
     ports:
       - "${EVB_BROKER_PORT}:${EVB_BROKER_PORT}"
@@ -138,6 +163,10 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    volumes:
+      # Map the directory inside the container to a named volume on the host
+      - kafka_data:/var/lib/kafka/data
     networks:
       - mb-network
 
@@ -149,6 +178,9 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: ${EVB_ZOOKEEPER_CLIENT_PORT}
       ZOOKEEPER_TICK_TIME: ${EVB_ZOOKEEPER_TICK_TIME}
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
     networks:
       - mb-network
   # ### 5.3.0 Event Broker ksqlDB
@@ -301,6 +333,9 @@ services:
 volumes:
   mb-db:
   kibanadata:
+  zookeeper_data:
+  zookeeper_log:
+  kafka_data:
 
 networks:
   mb-network:

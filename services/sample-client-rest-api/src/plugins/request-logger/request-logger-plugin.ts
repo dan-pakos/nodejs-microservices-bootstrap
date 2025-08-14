@@ -16,6 +16,6 @@ const requestLoggerPlugin = (
 }
 
 export default fp(requestLoggerPlugin, {
-    fastify: '4.x',
+    fastify: '5.x',
     name: 'requestLoggerPlugin',
 })

@@ -13,7 +13,7 @@ export interface Envs {
     TOPICS_LOGS: string
 }
 
-class Config {
+export class Config {
     #_envs: Envs = {
         LOG_LEVEL: process.env.LOG_LEVEL ?? `error`,
         APP_HOST: process.env.SSA_APP_HOST ?? `localhost`,

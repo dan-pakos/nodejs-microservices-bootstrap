@@ -6,13 +6,8 @@ export default class Config {
     envs: Envs = {
         VERSION: packageJson.version.split('.')[0],
         NODE_ENV: process.env.NODE_ENV ?? `production`,
-        LOG_LEVEL: process.env.LOG_LEVEL ?? `error`,
-        APP_HOST: process.env.APP_HOST ?? `localhost`,
-        APP_PORT: process.env.APP_PORT ?? `8031`,
-        API_PREFIX:
-            process.env.SCRA_APP_PREFIX ??
-            `/v${packageJson.version.split('.')[0]}`,
-        DOCS_ENDPOINT: process.env.SCRA_DOCS_ENDPOINT ?? `/documentation`,
+        APP_HOST: process.env.SCG_APP_HOST ?? `localhost`,
+        APP_PORT: process.env.SCG_APP_PORT ?? `8033`,
         BROKER_CLIENT_ID: process.env.EVB_BROKER_CLIENT_ID ?? ``,
         BROKER_URL: process.env.EVB_BROKER_URL ?? ``,
         TOPICS_REQUESTS: process.env.AO_TOPICS_REQUESTS ?? `requests`,
@@ -28,11 +23,8 @@ export interface ConfigTypes {
 export interface Envs {
     VERSION: string
     NODE_ENV: string
-    LOG_LEVEL: string
     APP_HOST: string
     APP_PORT: string
-    API_PREFIX: string
-    DOCS_ENDPOINT: string
     BROKER_CLIENT_ID: string
     BROKER_URL: string
     TOPICS_REQUESTS: string

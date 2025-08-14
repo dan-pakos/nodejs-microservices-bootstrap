@@ -1,8 +1,8 @@
 import { createRequire } from 'module'
-import { pino } from 'pino'
+import pino from 'pino'
 import { ProducerStream } from 'node-rdkafka'
 import kafkaStreamLogger from './kafka-stream-logger.js'
-import Config from '../../plugins/config/config.js'
+import { Config } from '../../plugins/config/config-plugin.js'
 
 const requireJson = createRequire(import.meta.url)
 const pretty = requireJson('pino-pretty')

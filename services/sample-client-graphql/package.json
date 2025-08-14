@@ -1,10 +1,12 @@
 {
-    "name": "sample-client-rest-api",
+    "name": "sample-client-graphql",
     "version": "0.0.0",
-    "description": "REST API Service for handling users' requests.",
+    "description": "GraphQL Service for handling users' requests.",
     "private": true,
     "type": "module",
-    "main": "src/index.ts",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "source": "./src/index.ts",
     "scripts": {
         "test-all": "npm-run-all --sequential test:*",
         "test": "npm-run-all --sequential test:unit",
@@ -22,21 +24,17 @@
     "author": "daniel@pakos.email",
     "license": "ISC",
     "dependencies": {
-        "@fastify/autoload": "^6.3.1",
-        "@fastify/cors": "^11.1.0",
-        "@fastify/swagger": "^9.5.1",
-        "@fastify/swagger-ui": "^5.2.3",
-        "@grpc/grpc-js": "^1.13.4",
-        "fastify": "^5.5.0",
-        "fastify-cli": "^7.4.0",
-        "fastify-plugin": "^5.0.1",
-        "grpc-provider": "*",
-        "mongodb": "^6.18.0",
-        "node-rdkafka": "^3.4.1",
+        "@apollo/server": "^5.0.0",
+        "@as-integrations/express5": "^1.1.2",
+        "cors": "^2.8.5",
+        "express": "^5.1.0",
+        "graphql": "^16.11.0",
         "pino": "^9.8.0",
         "pino-pretty": "^13.1.1"
     },
     "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.3",
         "eslint-config-generic": "*",
         "npm-run-all": "^4.1.5"
     }
