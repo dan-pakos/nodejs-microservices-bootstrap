@@ -43,7 +43,7 @@ const locationsRoutes = async (fast: FastifyInstance) => {
             const { id } = req.params
 
             try {
-                const { location } = (await grpcClient.invoke('getLocation', {
+                const location = (await grpcClient.invoke('getLocation', {
                     id,
                 })) as unknown as GetLocationResponse
 

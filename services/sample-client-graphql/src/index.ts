@@ -1,53 +1,15 @@
-// import httpServer from './server.js'
-// import Config from './plugins/config/config.js'
-
-// const config = new Config()
-
-// await new Promise((resolve) =>
-//     httpServer.listen({ port: config.envs.APP_PORT }, () => resolve)
-// )
-// console.log(`🚀 Server ready at http://localhost:${config.envs.APP_PORT}`)
-
 import { ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
+import App from './app.js'
 import Config from './plugins/config/config.js'
+import Schemas from './queries/schemas/index.js'
+import { locationResolver } from './queries/resolvers/index.js'
 
 const config = new Config()
+const app = new App(config)
 
-const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`
-
-const books = [
-    {
-        title: 'The Awakening',
-        author: 'Kate Chopin',
-    },
-    {
-        title: 'City of Glass',
-        author: 'Paul Auster',
-    },
-]
-
-const resolvers = {
-    Query: {
-        books: () => books,
-    },
-}
+app.init()
 
 const plugins = []
 
@@ -55,10 +17,18 @@ if (config.envs.NODE_ENV === 'production') {
     plugins.push(ApolloServerPluginLandingPageDisabled())
 }
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
+const resolvers = {
+    Query: {
+        async location(parent: any, args: any) {
+            void parent
+            return await locationResolver(app).resolve(args.id)
+        },
+        //locations: locationsResolver,
+    },
+}
+
 const server = new ApolloServer({
-    typeDefs,
+    typeDefs: Schemas,
     resolvers,
     plugins,
 })

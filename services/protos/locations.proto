@@ -9,21 +9,18 @@ service Locations {
 }
 
 message LocationsRes {
-  message Location {
-    message Geolocation {
-      double latitude = 1;
-      double longitude = 2;
-    }
-    string address_1 = 1;
-    string address_2 = 2;
-    string city = 3;
-    string postcode = 4;
-    string region = 5;
-    string country = 6;
-    optional Geolocation geolocation = 7;
+  message Geolocation {
+    double latitude = 1;
+    double longitude = 2;
   }
-  string _id = 1;
-  Location location = 2;
+  string id = 1;
+  string address_1 = 2;
+  string address_2 = 3;
+  string city = 4;
+  string postcode = 5;
+  string region = 6;
+  string country = 7;
+  optional Geolocation geolocation = 8;
 }
 
 // The request message containing single location id

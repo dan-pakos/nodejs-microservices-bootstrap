@@ -37,7 +37,7 @@ export default class GrpcProvider {
         return grpc.loadPackageDefinition(packageDefinition) as unknown as any
     }
 
-    connect() {
+    connect(): GrpcProvider {
         if (!this.#client) {
             try {
                 this.#client = new this.#proto[this.#package][this.service](
@@ -49,6 +49,8 @@ export default class GrpcProvider {
                 console.log(err)
             }
         }
+
+        return this
     }
 
     async invoke(methodName: string, data: any) {
