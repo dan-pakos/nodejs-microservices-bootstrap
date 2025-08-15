@@ -28,7 +28,8 @@
       "dependsOn": ["^build"]
     },
     "lint": {
-      "inputs": ["src/**"]
+      "inputs": ["src/**"],
+      "dependsOn": ["eslint-config-generic#build"]
     },
     "format": {
       "inputs": ["src/**"]
