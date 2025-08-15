@@ -119,6 +119,7 @@ services:
   sample-database:
     container_name: ${SDB_NAME}
     image: mongo:6.0
+    profiles: ["main", "sample-service-a"]
     env_file:
       - .env.development
     environment:
@@ -149,7 +150,8 @@ services:
   ##############################
   event-broker:
     container_name: ${EVB_BROKER_NAME}
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:7.3.0
+    profiles: ["main", "broker"]
     hostname: ${EVB_BROKER_NAME}
     ports:
       - "${EVB_BROKER_PORT}:${EVB_BROKER_PORT}"
@@ -163,6 +165,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      CLUSTER_ID: 'abc-123'
       KAFKA_LOG_DIRS: /var/lib/kafka/data
     volumes:
       # Map the directory inside the container to a named volume on the host
@@ -175,6 +178,7 @@ services:
   broker-zookeeper:
     container_name: ${EVB_ZOOKEEPER_NAME}
     image: confluentinc/cp-zookeeper:7.3.0
+    profiles: ["main", "broker"]
     environment:
       ZOOKEEPER_CLIENT_PORT: ${EVB_ZOOKEEPER_CLIENT_PORT}
       ZOOKEEPER_TICK_TIME: ${EVB_ZOOKEEPER_TICK_TIME}
